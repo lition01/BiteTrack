@@ -998,7 +998,7 @@
 
         .meal-add-row {
             display: grid;
-            grid-template-columns: minmax(140px, 2fr) minmax(120px, 1.5fr) 80px 90px 110px;
+            grid-template-columns: minmax(180px, 2fr) 90px 110px;
             gap: 8px;
             margin-bottom: 10px;
         }
@@ -1013,6 +1013,37 @@
         .meal-add-row .btn {
             padding: 8px 12px;
             font-size: 13px;
+        }
+
+        .food-results {
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            max-height: 180px;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .food-result-item {
+            padding: 8px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .food-result-item span {
+            color: var(--text-secondary);
+        }
+
+        .food-result-item strong {
+            color: var(--text-primary);
+        }
+
+        .food-result-item:hover {
+            background: var(--accent-light);
         }
 
         .meal-foods-list {
@@ -1343,7 +1374,7 @@
                                 <span class="card-badge up" id="caloriesBadge">+0%</span>
                             </div>
                             <div class="card-value" id="dashboardCalories">0</div>
-                            <div class="card-label">Calories Burned</div>
+                            <div class="card-label">Calories Consumed</div>
                             <div class="card-progress">
                                 <div class="progress-bar">
                                     <div class="progress-fill green" id="caloriesProgress" style="width: 0%"></div>
@@ -1547,16 +1578,9 @@
                         <div class="progress-bar" style="height: 12px;">
                             <div class="progress-fill green" id="nutritionProgress" style="width: 0%"></div>
                         </div>
-                        <div style="margin-top: 16px; display: flex; gap: 12px;">
-                            <button class="btn btn-primary" onclick="openCalorieModal()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 6px;">
-                                    <path d="M12 5v14"/>
-                                    <path d="M5 12h14"/>
-                                </svg>
-                                Add Calories
-                            </button>
-                            <button class="btn btn-secondary" onclick="resetCalories()">Reset</button>
-                        </div>
+                        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
+                            Calories are automatically calculated from the foods you add to your meals below.
+                        </p>
                     </div>
 
                     <!-- Meals & Foods -->
@@ -1710,35 +1734,6 @@
         </div>
     </div>
 
-    <!-- Add Calorie Modal -->
-    <div class="modal-overlay" id="calorieModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">Add Calories</div>
-                <button class="modal-close" onclick="closeCalorieModal()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18"/>
-                        <path d="M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            <form class="modal-form" id="calorieForm" onsubmit="addCalories(event)">
-                <div class="form-group">
-                    <label class="form-label">Meal/Food Name</label>
-                    <input type="text" class="form-input" id="mealName" placeholder="e.g., Breakfast, Chicken Salad" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Calories</label>
-                    <input type="number" class="form-input" id="calorieAmount" placeholder="Enter calories" min="1" required>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeCalorieModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- Add Workout Modal -->
     <div class="modal-overlay" id="workoutModal">
         <div class="modal">
@@ -1874,18 +1869,18 @@
 
         // Update dashboard statistics
         function updateDashboardStats() {
-            const totalCaloriesBurned = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
+            const totalCaloriesConsumed = getTotalMealCalories();
             const calorieGoal = userData.calorieGoal || 2000;
-            const caloriePercent = Math.min((totalCaloriesBurned / calorieGoal) * 100, 100);
+            const caloriePercent = Math.min((totalCaloriesConsumed / calorieGoal) * 100, 100);
             
             const activeGoal = 60;
             const activePercent = Math.min((userData.activeMinutes / activeGoal) * 100, 100);
             
             // Update header quick stats
-            document.getElementById('headerCalories').textContent = totalCaloriesBurned.toLocaleString();
+            document.getElementById('headerCalories').textContent = totalCaloriesConsumed.toLocaleString();
             
             // Update dashboard cards
-            document.getElementById('dashboardCalories').textContent = totalCaloriesBurned.toLocaleString();
+            document.getElementById('dashboardCalories').textContent = totalCaloriesConsumed.toLocaleString();
             document.getElementById('caloriesProgress').style.width = caloriePercent + '%';
             document.getElementById('caloriesPercent').textContent = Math.round(caloriePercent) + '% of goal';
             document.getElementById('caloriesGoal').textContent = calorieGoal + ' cal';
@@ -1918,9 +1913,22 @@
             document.getElementById('mealsBadge').textContent = mealsCount.toString();
         }
 
+        // Compute total calories from all meals
+        function getTotalMealCalories() {
+            return (userData.meals || []).reduce((sum, meal) => {
+                const mealCals = (meal.foods || []).reduce((msum, f) => msum + (f.calories || 0), 0);
+                return sum + mealCals;
+            }, 0);
+        }
+
         // Update nutrition statistics
         function updateNutritionStats() {
             const goal = userData.calorieGoal;
+            const consumedFromMeals = getTotalMealCalories();
+
+            // Keep caloriesConsumed in sync with meals so the graphic always reflects logged foods
+            userData.caloriesConsumed = consumedFromMeals;
+
             const consumed = userData.caloriesConsumed;
             const remaining = Math.max(goal - consumed, 0);
             const percent = Math.min((consumed / goal) * 100, 100);
@@ -1976,14 +1984,11 @@
                             <div class="meal-calories"><span id="mealCalories-${index}">${mealCalories.toFixed(0)}</span> cal</div>
                         </div>
                         <div class="meal-add-row">
-                            <input type="text" class="form-input" id="foodSearch-${index}" placeholder="Search food..." oninput="updateFoodDropdown(${index})">
-                            <select class="form-select" id="foodSelect-${index}">
-                                <option value="">Select food</option>
-                            </select>
-                            <input type="number" class="form-input" id="foodQuantity-${index}" placeholder="Qty" min="1" value="100">
-                            <select class="form-select" id="foodUnit-${index}">
-                                <option value="g">g</option>
-                            </select>
+                            <div>
+                                <input type="text" class="form-input" id="foodSearch-${index}" placeholder="Search food..." oninput="updateFoodSuggestions(${index})">
+                                <div class="food-results" id="foodResults-${index}"></div>
+                            </div>
+                            <input type="number" class="form-input" id="foodQuantity-${index}" placeholder="Qty (g)" min="1" value="100">
                             <button class="btn btn-secondary" type="button" onclick="addFoodToMeal(${index})">Add</button>
                         </div>
                         <div class="meal-foods-list" id="mealFoods-${index}">
@@ -1994,27 +1999,49 @@
             }).join('');
         }
 
-        function updateFoodDropdown(mealIndex) {
+        function updateFoodSuggestions(mealIndex) {
             const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
-            const select = document.getElementById(`foodSelect-${mealIndex}`);
-            if (!searchInput || !select) return;
+            const resultsContainer = document.getElementById(`foodResults-${mealIndex}`);
+            if (!searchInput || !resultsContainer) return;
 
-            const term = searchInput.value.toLowerCase();
+            const term = searchInput.value.toLowerCase().trim();
+            if (!term) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
             const matches = FOOD_DB.filter(f => f.name.toLowerCase().includes(term)).slice(0, 20);
 
-            select.innerHTML = '<option value="">Select food</option>' + matches.map((food, idx) =>
-                `<option value="${food.name}">${food.name} (${food.caloriesPer100g} cal / 100g)</option>`
-            ).join('');
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = '<div class="food-result-item"><span>No foods found</span></div>';
+                return;
+            }
+
+            resultsContainer.innerHTML = matches.map(food => `
+                <div class="food-result-item" onclick="selectFoodForMeal(${mealIndex}, '${food.name.replace(/'/g, "\\'")}', ${food.caloriesPer100g})">
+                    <strong>${food.name}</strong>
+                    <span>${food.caloriesPer100g} cal / 100g</span>
+                </div>
+            `).join('');
+        }
+
+        function selectFoodForMeal(mealIndex, foodName, caloriesPer100g) {
+            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
+            const resultsContainer = document.getElementById(`foodResults-${mealIndex}`);
+            if (!searchInput) return;
+
+            searchInput.value = foodName;
+            searchInput.dataset.selectedFood = foodName;
+            if (resultsContainer) resultsContainer.innerHTML = '';
         }
 
         function addFoodToMeal(mealIndex) {
             ensureMealsInitialized();
-            const select = document.getElementById(`foodSelect-${mealIndex}`);
+            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
             const qtyInput = document.getElementById(`foodQuantity-${mealIndex}`);
-            const unitSelect = document.getElementById(`foodUnit-${mealIndex}`);
-            if (!select || !qtyInput || !unitSelect) return;
+            if (!searchInput || !qtyInput) return;
 
-            const foodName = select.value || document.getElementById(`foodSearch-${mealIndex}`).value;
+            const foodName = searchInput.dataset.selectedFood || searchInput.value;
             const quantity = parseFloat(qtyInput.value) || 0;
             if (!foodName || quantity <= 0) return;
 
@@ -2025,7 +2052,7 @@
             userData.meals[mealIndex].foods.push({
                 name: foodName,
                 quantity,
-                unit: unitSelect.value || 'g',
+                unit: 'g',
                 calories
             });
 
@@ -2064,36 +2091,6 @@
             saveUserData();
             updateUI();
         });
-
-        // Open calorie modal
-        function openCalorieModal() {
-            document.getElementById('calorieModal').classList.add('show');
-            document.getElementById('calorieForm').reset();
-        }
-
-        // Close calorie modal
-        function closeCalorieModal() {
-            document.getElementById('calorieModal').classList.remove('show');
-        }
-
-        // Add calories
-        function addCalories(event) {
-            event.preventDefault();
-            const amount = parseInt(document.getElementById('calorieAmount').value);
-            userData.caloriesConsumed += amount;
-            saveUserData();
-            updateUI();
-            closeCalorieModal();
-        }
-
-        // Reset calories
-        function resetCalories() {
-            if (confirm('Are you sure you want to reset your calorie count for today?')) {
-                userData.caloriesConsumed = 0;
-                saveUserData();
-                updateUI();
-            }
-        }
 
         // Update workout statistics
         function updateWorkoutStats() {
