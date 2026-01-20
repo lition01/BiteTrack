@@ -178,6 +178,12 @@
             height: 40px;
             border-radius: 10px;
             object-fit: cover;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--accent);
         }
 
         .user-info {
@@ -325,11 +331,6 @@
         .quick-stat-icon.steps {
             background: #dbeafe;
             color: #3b82f6;
-        }
-
-        .quick-stat-icon.water {
-            background: #e0f2fe;
-            color: #0ea5e9;
         }
 
         .quick-stat-icon svg {
@@ -538,7 +539,7 @@
             color: var(--text-muted);
         }
 
-        /* Activity Chart */
+        /* Chart Card */
         .chart-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -697,6 +698,59 @@
             color: var(--text-muted);
         }
 
+        .workout-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .workout-action-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .workout-action-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .workout-action-btn.delete:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .add-workout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .add-workout-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .add-workout-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
         /* Profile Section */
         .profile-header {
             display: flex;
@@ -709,11 +763,18 @@
             margin-bottom: 24px;
         }
 
-        .profile-avatar {
+        .profile-avatar-large {
             width: 100px;
             height: 100px;
             border-radius: 20px;
             object-fit: cover;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
         }
 
         .profile-info h2 {
@@ -768,7 +829,7 @@
             color: var(--text-secondary);
         }
 
-        .form-input {
+        .form-input, .form-select {
             padding: 12px 16px;
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -778,7 +839,7 @@
             transition: border-color 0.2s ease;
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-select:focus {
             outline: none;
             border-color: var(--accent);
         }
@@ -800,6 +861,7 @@
 
         .btn-primary:hover {
             background: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
@@ -812,7 +874,7 @@
         }
 
         /* Nutrition Section */
-        .nutrition-setup {
+        .nutrition-controls {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 24px;
@@ -820,55 +882,33 @@
             margin-bottom: 24px;
         }
 
-        .nutrition-setup-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .nutrition-setup-title {
+        .nutrition-controls-header {
             font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
+            margin-bottom: 16px;
         }
 
-        .setup-form {
+        .controls-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
         }
 
-        .setup-form label {
+        .control-group label {
             font-size: 14px;
             color: var(--text-secondary);
+            white-space: nowrap;
         }
 
-        .setup-form select {
-            padding: 10px 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .setup-form select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .calorie-goal-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .calorie-goal-container input {
+        .control-group input {
             width: 100px;
             padding: 10px 12px;
             border: 1px solid var(--border);
@@ -878,270 +918,135 @@
             font-size: 14px;
         }
 
-        .calorie-goal-container input:focus {
+        .control-group input:focus {
             outline: none;
             border-color: var(--accent);
         }
 
-        .daily-summary {
+        .meals-card {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 24px;
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-top: 24px;
         }
 
-        .daily-summary-header {
+        .meals-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 16px;
         }
 
-        .daily-summary-title {
+        .meals-title {
             font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        .daily-total-calories {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .daily-total-calories span {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-
-        .calorie-progress {
-            margin-top: 16px;
-        }
-
-        .calorie-progress-bar {
-            height: 12px;
-            background: var(--bg-primary);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .calorie-progress-fill {
-            height: 100%;
-            border-radius: 6px;
-            background: var(--accent);
-            transition: width 0.5s ease, background 0.3s ease;
-        }
-
-        .calorie-progress-fill.warning {
-            background: #f59e0b;
-        }
-
-        .calorie-progress-fill.danger {
-            background: #ef4444;
-        }
-
-        .calorie-progress-text {
+        .meals-config {
             display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 13px;
-            color: var(--text-muted);
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .meals-container {
+        .meals-config label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .meals-config input {
+            width: 80px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .meals-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
-        .meal-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
+        .meal-item {
+            border-radius: 12px;
             border: 1px solid var(--border);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .meal-card:hover {
-            box-shadow: 0 4px 20px var(--shadow);
+            padding: 16px;
         }
 
         .meal-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .meal-header-left {
-            display: flex;
             align-items: center;
-            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .meal-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent-light);
-            color: var(--accent);
-        }
-
-        .meal-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .meal-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .meal-title {
-            font-size: 16px;
+        .meal-name {
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-primary);
         }
 
         .meal-calories {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .meal-calories strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .add-food-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 16px;
-            border: 1px dashed var(--border);
-            background: transparent;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .add-food-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-light);
-        }
-
-        .add-food-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .meal-items {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .meal-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            animation: fadeInItem 0.3s ease;
-        }
-
-        @keyframes fadeInItem {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .meal-item-left {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .meal-item-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .meal-item-details {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .meal-item-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .meal-item-calories {
             font-size: 14px;
             font-weight: 600;
             color: var(--accent);
         }
 
-        .meal-item-actions {
-            display: flex;
-            gap: 6px;
+        .meal-add-row {
+            display: grid;
+            grid-template-columns: minmax(140px, 2fr) minmax(120px, 1.5fr) 80px 90px 110px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
-        .item-action-btn {
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: var(--card-bg);
+        .meal-add-row .form-input,
+        .meal-add-row .form-select {
+            padding: 8px 10px;
+            font-size: 13px;
             border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            transition: all 0.2s ease;
         }
 
-        .item-action-btn:hover {
+        .meal-add-row .btn {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .meal-foods-list {
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        .meal-food-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 8px;
+            align-items: center;
+            font-size: 13px;
+            padding: 4px 0;
+            color: var(--text-secondary);
+        }
+
+        .meal-food-row strong {
             color: var(--text-primary);
         }
 
-        .item-action-btn.delete:hover {
-            color: #ef4444;
-            background: #fee2e2;
+        .meal-food-row button {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 8px;
         }
 
-        .item-action-btn svg {
-            width: 14px;
-            height: 14px;
+        @media (max-width: 768px) {
+            .meal-add-row {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+            }
         }
 
-        .empty-meal {
-            padding: 24px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
 
         /* Modal */
         .modal-overlay {
@@ -1220,58 +1125,6 @@
             gap: 16px;
         }
 
-        .modal-form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .modal-form-group label {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .modal-form-group input {
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: border-color 0.2s ease;
-        }
-
-        .modal-form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .modal-form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .calorie-preview {
-            padding: 16px;
-            background: var(--accent-light);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .calorie-preview-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .calorie-preview-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
         .modal-actions {
             display: flex;
             gap: 12px;
@@ -1280,189 +1133,6 @@
 
         .modal-actions .btn {
             flex: 1;
-        }
-
-        /* Edit modal specific */
-        .edit-modal .modal {
-            max-width: 420px;
-        }
-
-        /* Food Search Styles */
-        .search-container {
-            position: relative;
-        }
-
-        .search-input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            width: 18px;
-            height: 18px;
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-
-        .search-input-wrapper input {
-            width: 100%;
-            padding: 12px 40px 12px 42px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: border-color 0.2s ease;
-        }
-
-        .search-input-wrapper input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .clear-search {
-            position: absolute;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            transition: color 0.2s ease;
-        }
-
-        .clear-search:hover {
-            color: var(--text-primary);
-        }
-
-        .clear-search svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-top: 4px;
-            max-height: 240px;
-            overflow-y: auto;
-            z-index: 100;
-            display: none;
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .search-results.show {
-            display: block;
-        }
-
-        .search-result-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: background 0.15s ease;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-item:hover {
-            background: var(--accent-light);
-        }
-
-        .search-result-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .search-result-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .search-result-category {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .search-result-calories {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            white-space: nowrap;
-        }
-
-        .no-results {
-            padding: 16px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .selected-food {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            background: var(--accent-light);
-            border-radius: 10px;
-            margin-bottom: 16px;
-        }
-
-        .selected-food-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .selected-food-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .selected-food-calories {
-            font-size: 13px;
-            color: var(--accent);
-        }
-
-        .change-food-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            background: var(--card-bg);
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .change-food-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         /* Responsive */
@@ -1524,6 +1194,11 @@
             .overlay.show {
                 display: block;
             }
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -1600,10 +1275,10 @@
 
             <div class="sidebar-footer">
                 <div class="user-card">
-                    <img src="/public/images/avatar.jpg" alt="User" class="user-avatar">
+                    <div class="user-avatar" id="sidebarAvatar">U</div>
                     <div class="user-info">
-                        <div class="user-name">Alex Johnson</div>
-                        <div class="user-email">alex@email.com</div>
+                        <div class="user-name" id="sidebarUserName">User</div>
+                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
                     </div>
                 </div>
                 <div class="theme-toggle">
@@ -1623,7 +1298,7 @@
             <header class="header">
                 <div class="header-left">
                     <div class="header-date" id="currentDate"></div>
-                    <div class="header-greeting" id="greeting">Good Morning, Alex</div>
+                    <div class="header-greeting" id="greeting">Good Morning</div>
                 </div>
                 <div class="header-right">
                     <div class="quick-stat">
@@ -1634,31 +1309,8 @@
                             </svg>
                         </div>
                         <div class="quick-stat-info">
-                            <div class="quick-stat-value">1,847</div>
+                            <div class="quick-stat-value" id="headerCalories">0</div>
                             <div class="quick-stat-label">Calories</div>
-                        </div>
-                    </div>
-                    <div class="quick-stat">
-                        <div class="quick-stat-icon steps">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/>
-                                <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/>
-                            </svg>
-                        </div>
-                        <div class="quick-stat-info">
-                            <div class="quick-stat-value">8,432</div>
-                            <div class="quick-stat-label">Steps</div>
-                        </div>
-                    </div>
-                    <div class="quick-stat">
-                        <div class="quick-stat-icon water">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
-                            </svg>
-                        </div>
-                        <div class="quick-stat-info">
-                            <div class="quick-stat-value">6/8</div>
-                            <div class="quick-stat-label">Glasses</div>
                         </div>
                     </div>
                     <button class="menu-toggle" id="menuToggle">
@@ -1688,17 +1340,17 @@
                                         <path d="M12 21c-4 0-6-2-6-5 0-4 4-6.5 6-10 2 3.5 6 6 6 10 0 3-2 5-6 5"/>
                                     </svg>
                                 </div>
-                                <span class="card-badge up">+12%</span>
+                                <span class="card-badge up" id="caloriesBadge">+0%</span>
                             </div>
-                            <div class="card-value">1,847</div>
+                            <div class="card-value" id="dashboardCalories">0</div>
                             <div class="card-label">Calories Burned</div>
                             <div class="card-progress">
                                 <div class="progress-bar">
-                                    <div class="progress-fill green" style="width: 73%"></div>
+                                    <div class="progress-fill green" id="caloriesProgress" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>73% of goal</span>
-                                    <span>2,500 cal</span>
+                                    <span id="caloriesPercent">0% of goal</span>
+                                    <span id="caloriesGoal">2000 cal</span>
                                 </div>
                             </div>
                         </div>
@@ -1707,21 +1359,23 @@
                             <div class="card-header">
                                 <div class="card-icon blue">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/>
-                                        <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/>
+                                        <path d="M8 2v4"/>
+                                        <path d="M16 2v4"/>
+                                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                        <path d="M3 10h18"/>
                                     </svg>
                                 </div>
-                                <span class="card-badge up">+8%</span>
+                                <span class="card-badge up" id="mealsBadge">0</span>
                             </div>
-                            <div class="card-value">8,432</div>
-                            <div class="card-label">Steps Today</div>
+                            <div class="card-value" id="dashboardMeals">0</div>
+                            <div class="card-label">Meals Today</div>
                             <div class="card-progress">
                                 <div class="progress-bar">
-                                    <div class="progress-fill blue" style="width: 84%"></div>
+                                    <div class="progress-fill blue" id="mealsProgress" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>84% of goal</span>
-                                    <span>10,000 steps</span>
+                                    <span id="mealsCount">0 meals</span>
+                                    <span id="mealsGoalDisplay">3 / day</span>
                                 </div>
                             </div>
                         </div>
@@ -1734,16 +1388,16 @@
                                         <polyline points="12 6 12 12 16 14"/>
                                     </svg>
                                 </div>
-                                <span class="card-badge up">+5%</span>
+                                <span class="card-badge up" id="activeBadge">+0%</span>
                             </div>
-                            <div class="card-value">45 min</div>
+                            <div class="card-value" id="dashboardActiveTime">0 min</div>
                             <div class="card-label">Active Time</div>
                             <div class="card-progress">
                                 <div class="progress-bar">
-                                    <div class="progress-fill orange" style="width: 75%"></div>
+                                    <div class="progress-fill orange" id="activeProgress" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>75% of goal</span>
+                                    <span id="activePercent">0% of goal</span>
                                     <span>60 min</span>
                                 </div>
                             </div>
@@ -1753,20 +1407,22 @@
                             <div class="card-header">
                                 <div class="card-icon purple">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
+                                        <path d="M12 2L2 7l10 5 10-5-10-5Z"/>
+                                        <path d="m2 17 10 5 10-5"/>
+                                        <path d="m2 12 10 5 10-5"/>
                                     </svg>
                                 </div>
-                                <span class="card-badge down">-2</span>
+                                <span class="card-badge down" id="workoutsBadge">0</span>
                             </div>
-                            <div class="card-value">6/8</div>
-                            <div class="card-label">Water Intake</div>
+                            <div class="card-value" id="dashboardWorkouts">0</div>
+                            <div class="card-label">Total Workouts</div>
                             <div class="card-progress">
                                 <div class="progress-bar">
-                                    <div class="progress-fill green" style="width: 75%"></div>
+                                    <div class="progress-fill green" id="workoutsProgress" style="width: 0%"></div>
                                 </div>
                                 <div class="progress-text">
-                                    <span>6 glasses</span>
-                                    <span>8 glasses</span>
+                                    <span id="workoutsCount">0 workouts</span>
+                                    <span id="workoutsGoalDisplay">7 / week</span>
                                 </div>
                             </div>
                         </div>
@@ -1793,22 +1449,22 @@
                     </div>
 
                     <div class="profile-header">
-                        <img src="/public/images/avatar.jpg" alt="Profile" class="profile-avatar">
+                        <div class="profile-avatar-large" id="profileAvatar">U</div>
                         <div class="profile-info">
-                            <h2>Alex Johnson</h2>
-                            <p>Fitness enthusiast since 2022</p>
+                            <h2 id="profileName">User</h2>
+                            <p>Fitness enthusiast since 2024</p>
                             <div class="profile-stats">
                                 <div class="profile-stat">
-                                    <div class="profile-stat-value">127</div>
+                                    <div class="profile-stat-value" id="totalWorkouts">0</div>
                                     <div class="profile-stat-label">Workouts</div>
                                 </div>
                                 <div class="profile-stat">
-                                    <div class="profile-stat-value">14</div>
+                                    <div class="profile-stat-value" id="dayStreak">0</div>
                                     <div class="profile-stat-label">Day Streak</div>
                                 </div>
                                 <div class="profile-stat">
-                                    <div class="profile-stat-value">5.2kg</div>
-                                    <div class="profile-stat-label">Lost</div>
+                                    <div class="profile-stat-value" id="weightLost">0kg</div>
+                                    <div class="profile-stat-label">Progress</div>
                                 </div>
                             </div>
                         </div>
@@ -1816,41 +1472,43 @@
 
                     <div class="card">
                         <h3 style="margin-bottom: 20px; font-size: 18px; color: var(--text-primary);">Personal Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-input" value="Alex Johnson">
+                        <form id="profileForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-input" id="profileNameInput" placeholder="Enter your name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" id="profileEmailInput" placeholder="your@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" class="form-input" id="profileAgeInput" placeholder="25" min="13" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Weight (kg)</label>
+                                    <input type="number" class="form-input" id="profileWeightInput" placeholder="70" min="30" max="300">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Height (cm)</label>
+                                    <input type="number" class="form-input" id="profileHeightInput" placeholder="175" min="100" max="250">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Activity Level</label>
+                                    <select class="form-select" id="profileActivityInput">
+                                        <option value="sedentary">Sedentary</option>
+                                        <option value="light">Light Activity</option>
+                                        <option value="moderate">Moderate Activity</option>
+                                        <option value="very">Very Active</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-input" value="alex@email.com">
+                            <div style="margin-top: 24px; display: flex; gap: 12px;">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" onclick="loadProfileData()">Cancel</button>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Age</label>
-                                <input type="number" class="form-input" value="28">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Weight (kg)</label>
-                                <input type="number" class="form-input" value="72">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Height (cm)</label>
-                                <input type="number" class="form-input" value="175">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Activity Level</label>
-                                <select class="form-input">
-                                    <option>Sedentary</option>
-                                    <option>Light Activity</option>
-                                    <option selected>Moderate Activity</option>
-                                    <option>Very Active</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="margin-top: 24px; display: flex; gap: 12px;">
-                            <button class="btn btn-primary">Save Changes</button>
-                            <button class="btn btn-secondary">Cancel</button>
-                        </div>
+                        </form>
                     </div>
                 </section>
 
@@ -1858,170 +1516,62 @@
                 <section class="section" id="nutrition">
                     <div class="section-header">
                         <h1 class="section-title">Nutrition</h1>
-                        <p class="section-subtitle">Plan your meals and track your daily calories</p>
+                        <p class="section-subtitle">Track your daily calorie intake</p>
                     </div>
 
-                    <!-- Meal Setup -->
-                    <div class="nutrition-setup">
-                        <div class="nutrition-setup-header">
-                            <div class="nutrition-setup-title">Meal Planning Setup</div>
-                            <div class="setup-form">
-                                <label for="mealCount">Number of meals:</label>
-                                <select id="mealCount">
-                                    <option value="2">2 Meals</option>
-                                    <option value="3" selected>3 Meals</option>
-                                    <option value="4">4 Meals</option>
-                                    <option value="5">5 Meals</option>
-                                    <option value="6">6 Meals</option>
-                                </select>
-                                <div class="calorie-goal-container">
-                                    <label for="calorieGoal">Daily Goal:</label>
-                                    <input type="number" id="calorieGoal" value="2000" min="500" max="10000">
-                                    <span style="color: var(--text-muted); font-size: 14px;">cal</span>
-                                </div>
+                    <!-- Nutrition Controls -->
+                    <div class="nutrition-controls">
+                        <div class="nutrition-controls-header">Daily Goals</div>
+                        <div class="controls-row">
+                            <div class="control-group">
+                                <label for="calorieGoalInput">Calorie Goal:</label>
+                                <input type="number" id="calorieGoalInput" value="2000" min="500" max="10000" step="100">
+                                <span style="color: var(--text-muted); font-size: 14px;">cal</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Daily Summary -->
-                    <div class="daily-summary">
-                        <div class="daily-summary-header">
-                            <div class="daily-summary-title">Daily Summary</div>
-                            <div class="daily-total-calories">
-                                <span id="totalCaloriesDisplay">0</span> <span>/ <span id="goalDisplay">2000</span> cal</span>
+                    <!-- Calorie Summary -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px; font-size: 18px; color: var(--text-primary);">Calorie Summary</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div>
+                                <div style="font-size: 32px; font-weight: 700; color: var(--accent);"><span id="caloriesConsumed">0</span> cal</div>
+                                <div style="font-size: 14px; color: var(--text-muted);">of <span id="calorieGoalText">2000</span> cal goal</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 20px; font-weight: 600; color: var(--text-secondary);"><span id="caloriesRemaining">2000</span> cal</div>
+                                <div style="font-size: 14px; color: var(--text-muted);">remaining</div>
                             </div>
                         </div>
-                        <div class="calorie-progress">
-                            <div class="calorie-progress-bar">
-                                <div class="calorie-progress-fill" id="calorieProgressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="calorie-progress-text">
-                                <span id="percentageDisplay">0% of daily goal</span>
-                                <span id="remainingDisplay">2000 cal remaining</span>
-                            </div>
+                        <div class="progress-bar" style="height: 12px;">
+                            <div class="progress-fill green" id="nutritionProgress" style="width: 0%"></div>
+                        </div>
+                        <div style="margin-top: 16px; display: flex; gap: 12px;">
+                            <button class="btn btn-primary" onclick="openCalorieModal()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 6px;">
+                                    <path d="M12 5v14"/>
+                                    <path d="M5 12h14"/>
+                                </svg>
+                                Add Calories
+                            </button>
+                            <button class="btn btn-secondary" onclick="resetCalories()">Reset</button>
                         </div>
                     </div>
 
-                    <!-- Meals Container -->
-                    <div class="meals-container" id="mealsContainer">
-                        <!-- Meals will be dynamically generated -->
+                    <!-- Meals & Foods -->
+                    <div class="meals-card">
+                        <div class="meals-header">
+                            <div class="meals-title">Meals & Foods</div>
+                            <div class="meals-config">
+                                <label for="mealsPerDayInput">Meals per day:</label>
+                                <input type="number" id="mealsPerDayInput" min="1" max="10" value="3">
+                                <button class="btn btn-secondary" type="button" onclick="applyMealsPerDay()">Apply</button>
+                            </div>
+                        </div>
+                        <div class="meals-list" id="mealsContainer"></div>
                     </div>
                 </section>
-
-                <!-- Add Food Modal -->
-                <div class="modal-overlay" id="addFoodModal">
-                    <div class="modal">
-                        <div class="modal-header">
-                            <div class="modal-title">Add Food to <span id="modalMealName">Breakfast</span></div>
-                            <button class="modal-close" onclick="closeAddFoodModal()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M18 6L6 18"/>
-                                    <path d="M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <form class="modal-form" id="addFoodForm" onsubmit="addFoodItem(event)">
-                            <input type="hidden" id="currentMealIndex">
-                            <input type="hidden" id="selectedFoodCalories">
-                            <div class="modal-form-group">
-                                <label for="foodSearch">Search Food</label>
-                                <div class="search-container">
-                                    <div class="search-input-wrapper">
-                                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="11" cy="11" r="8"/>
-                                            <path d="m21 21-4.35-4.35"/>
-                                        </svg>
-                                        <input type="text" id="foodSearch" placeholder="Search for a food..." autocomplete="off" required>
-                                        <button type="button" class="clear-search" id="clearSearch" style="display: none;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M18 6L6 18"/>
-                                                <path d="M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="search-results" id="searchResults"></div>
-                                </div>
-                            </div>
-                            <div class="selected-food" id="selectedFoodDisplay" style="display: none;">
-                                <div class="selected-food-info">
-                                    <span class="selected-food-name" id="selectedFoodName"></span>
-                                    <span class="selected-food-calories" id="selectedFoodCaloriesDisplay"></span>
-                                </div>
-                                <button type="button" class="change-food-btn" onclick="clearSelectedFood()">Change</button>
-                            </div>
-                            <div class="modal-form-group">
-                                <label for="foodQuantity">Quantity (servings)</label>
-                                <input type="number" id="foodQuantity" min="0.5" step="0.5" value="1" required>
-                            </div>
-                            <div class="calorie-preview">
-                                <div class="calorie-preview-label">Total Calories</div>
-                                <div class="calorie-preview-value" id="caloriePreview">0</div>
-                            </div>
-                            <div class="modal-actions">
-                                <button type="button" class="btn btn-secondary" onclick="closeAddFoodModal()">Cancel</button>
-                                <button type="submit" class="btn btn-primary" id="addFoodBtn" disabled>Add Food</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Edit Food Modal -->
-                <div class="modal-overlay edit-modal" id="editFoodModal">
-                    <div class="modal">
-                        <div class="modal-header">
-                            <div class="modal-title">Edit Food Item</div>
-                            <button class="modal-close" onclick="closeEditFoodModal()">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M18 6L6 18"/>
-                                    <path d="M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <form class="modal-form" id="editFoodForm" onsubmit="updateFoodItem(event)">
-                            <input type="hidden" id="editMealIndex">
-                            <input type="hidden" id="editFoodIndex">
-                            <input type="hidden" id="editSelectedFoodCalories">
-                            <div class="modal-form-group">
-                                <label for="editFoodSearch">Search Food</label>
-                                <div class="search-container">
-                                    <div class="search-input-wrapper">
-                                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="11" cy="11" r="8"/>
-                                            <path d="m21 21-4.35-4.35"/>
-                                        </svg>
-                                        <input type="text" id="editFoodSearch" placeholder="Search for a food..." autocomplete="off" required>
-                                        <button type="button" class="clear-search" id="editClearSearch" style="display: none;">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M18 6L6 18"/>
-                                                <path d="M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="search-results" id="editSearchResults"></div>
-                                </div>
-                            </div>
-                            <div class="selected-food" id="editSelectedFoodDisplay" style="display: none;">
-                                <div class="selected-food-info">
-                                    <span class="selected-food-name" id="editSelectedFoodName"></span>
-                                    <span class="selected-food-calories" id="editSelectedFoodCaloriesDisplay"></span>
-                                </div>
-                                <button type="button" class="change-food-btn" onclick="clearEditSelectedFood()">Change</button>
-                            </div>
-                            <div class="modal-form-group">
-                                <label for="editFoodQuantity">Quantity (servings)</label>
-                                <input type="number" id="editFoodQuantity" min="0.5" step="0.5" required>
-                            </div>
-                            <div class="calorie-preview">
-                                <div class="calorie-preview-label">Total Calories</div>
-                                <div class="calorie-preview-value" id="editCaloriePreview">0</div>
-                            </div>
-                            <div class="modal-actions">
-                                <button type="button" class="btn btn-secondary" onclick="closeEditFoodModal()">Cancel</button>
-                                <button type="submit" class="btn btn-primary" id="editFoodBtn">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
 
                 <!-- Workouts Section -->
                 <section class="section" id="workouts">
@@ -2029,6 +1579,14 @@
                         <h1 class="section-title">Workouts</h1>
                         <p class="section-subtitle">Your exercise routines and history</p>
                     </div>
+
+                    <button class="add-workout-btn" onclick="openWorkoutModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14"/>
+                            <path d="M5 12h14"/>
+                        </svg>
+                        Add Workout
+                    </button>
 
                     <div class="cards-grid" style="margin-bottom: 24px;">
                         <div class="card">
@@ -2041,7 +1599,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">5</div>
+                            <div class="card-value" id="weekWorkouts">0</div>
                             <div class="card-label">Workouts This Week</div>
                         </div>
                         <div class="card">
@@ -2053,7 +1611,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">4.5h</div>
+                            <div class="card-value" id="totalDuration">0h</div>
                             <div class="card-label">Total Duration</div>
                         </div>
                         <div class="card">
@@ -2065,82 +1623,13 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">2,340</div>
+                            <div class="card-value" id="totalCaloriesBurned">0</div>
                             <div class="card-label">Calories Burned</div>
                         </div>
                     </div>
 
                     <h3 style="margin-bottom: 16px; font-size: 18px; color: var(--text-primary);">Recent Workouts</h3>
-                    <div class="workout-list">
-                        <div class="workout-item">
-                            <div class="workout-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6.5 6.5h11"/>
-                                    <path d="M6.5 17.5h11"/>
-                                    <path d="M12 6.5v11"/>
-                                </svg>
-                            </div>
-                            <div class="workout-info">
-                                <div class="workout-name">Upper Body Strength</div>
-                                <div class="workout-meta">Today at 7:00 AM</div>
-                            </div>
-                            <div class="workout-stats">
-                                <div>
-                                    <div class="workout-stat-value">45 min</div>
-                                    <div class="workout-stat-label">Duration</div>
-                                </div>
-                                <div>
-                                    <div class="workout-stat-value">380 cal</div>
-                                    <div class="workout-stat-label">Burned</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="workout-item">
-                            <div class="workout-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16"/>
-                                    <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20"/>
-                                </svg>
-                            </div>
-                            <div class="workout-info">
-                                <div class="workout-name">Morning Run</div>
-                                <div class="workout-meta">Yesterday at 6:30 AM</div>
-                            </div>
-                            <div class="workout-stats">
-                                <div>
-                                    <div class="workout-stat-value">30 min</div>
-                                    <div class="workout-stat-label">Duration</div>
-                                </div>
-                                <div>
-                                    <div class="workout-stat-value">320 cal</div>
-                                    <div class="workout-stat-label">Burned</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="workout-item">
-                            <div class="workout-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M12 8v8"/>
-                                    <path d="M8 12h8"/>
-                                </svg>
-                            </div>
-                            <div class="workout-info">
-                                <div class="workout-name">HIIT Session</div>
-                                <div class="workout-meta">2 days ago</div>
-                            </div>
-                            <div class="workout-stats">
-                                <div>
-                                    <div class="workout-stat-value">25 min</div>
-                                    <div class="workout-stat-label">Duration</div>
-                                </div>
-                                <div>
-                                    <div class="workout-stat-value">450 cal</div>
-                                    <div class="workout-stat-label">Burned</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="workout-list" id="workoutList"></div>
                 </section>
 
                 <!-- Progress Section -->
@@ -2159,9 +1648,9 @@
                                         <path d="m7 16 4-8 4 4 6-8"/>
                                     </svg>
                                 </div>
-                                <span class="card-badge up">-5.2kg</span>
+                                <span class="card-badge up" id="weightChangeBadge">0kg</span>
                             </div>
-                            <div class="card-value">72 kg</div>
+                            <div class="card-value" id="currentWeight">0 kg</div>
                             <div class="card-label">Current Weight</div>
                         </div>
                         <div class="card">
@@ -2173,7 +1662,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">68 kg</div>
+                            <div class="card-value" id="goalWeight">0 kg</div>
                             <div class="card-label">Goal Weight</div>
                         </div>
                         <div class="card">
@@ -2187,7 +1676,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">14</div>
+                            <div class="card-value" id="progressStreak">0</div>
                             <div class="card-label">Day Streak</div>
                         </div>
                         <div class="card">
@@ -2200,7 +1689,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="card-value">127</div>
+                            <div class="card-value" id="progressTotalWorkouts">0</div>
                             <div class="card-label">Total Workouts</div>
                         </div>
                     </div>
@@ -2221,8 +1710,600 @@
         </div>
     </div>
 
+    <!-- Add Calorie Modal -->
+    <div class="modal-overlay" id="calorieModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add Calories</div>
+                <button class="modal-close" onclick="closeCalorieModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18"/>
+                        <path d="M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form class="modal-form" id="calorieForm" onsubmit="addCalories(event)">
+                <div class="form-group">
+                    <label class="form-label">Meal/Food Name</label>
+                    <input type="text" class="form-input" id="mealName" placeholder="e.g., Breakfast, Chicken Salad" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Calories</label>
+                    <input type="number" class="form-input" id="calorieAmount" placeholder="Enter calories" min="1" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCalorieModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Workout Modal -->
+    <div class="modal-overlay" id="workoutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="workoutModalTitle">Add Workout</div>
+                <button class="modal-close" onclick="closeWorkoutModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18"/>
+                        <path d="M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form class="modal-form" id="workoutForm" onsubmit="saveWorkout(event)">
+                <input type="hidden" id="editWorkoutIndex" value="-1">
+                <div class="form-group">
+                    <label class="form-label">Workout Name</label>
+                    <input type="text" class="form-input" id="workoutName" placeholder="e.g., Morning Run, Gym Session" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Duration (minutes)</label>
+                    <input type="number" class="form-input" id="workoutDuration" placeholder="Enter duration" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Calories Burned</label>
+                    <input type="number" class="form-input" id="workoutCalories" placeholder="Enter calories burned" min="1" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeWorkoutModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="workoutSubmitBtn">Add Workout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // DOM Elements
+        // Initialize user data from localStorage or URL parameters
+        let userData = {
+            name: '',
+            email: '',
+            age: '',
+            height: '',
+            weight: '',
+            goal: '',
+            frequency: 3,
+            duration: 45,
+            activities: '',
+            calorieGoal: 2000,
+            caloriesConsumed: 0,
+            activeMinutes: 0,
+            workouts: [],
+            initialWeight: 0,
+            mealsPerDay: 3,
+            meals: [] // { name, foods: [{ name, quantity, unit, calories }] }
+        };
+
+        const FOOD_DB = [
+            { name: 'Apple', caloriesPer100g: 52 },
+            { name: 'Banana', caloriesPer100g: 96 },
+            { name: 'Chicken Breast (grilled)', caloriesPer100g: 165 },
+            { name: 'Rice (cooked)', caloriesPer100g: 130 },
+            { name: 'Egg (boiled)', caloriesPer100g: 155 },
+            { name: 'Oats', caloriesPer100g: 389 },
+            { name: 'Greek Yogurt', caloriesPer100g: 59 },
+            { name: 'Almonds', caloriesPer100g: 579 },
+            { name: 'Broccoli (boiled)', caloriesPer100g: 35 },
+            { name: 'Salmon (grilled)', caloriesPer100g: 208 }
+        ];
+
+        // Load data from URL parameters (from index.php)
+        function loadFromURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('name')) {
+                userData.name = urlParams.get('name') || 'User';
+                userData.email = urlParams.get('email') || '';
+                userData.age = parseInt(urlParams.get('age')) || 25;
+                userData.height = parseInt(urlParams.get('height')) || 175;
+                userData.weight = parseInt(urlParams.get('weight')) || 70;
+                userData.initialWeight = userData.weight;
+                userData.goal = urlParams.get('goal') || 'maintain';
+                userData.frequency = parseInt(urlParams.get('frequency')) || 3;
+                userData.duration = parseInt(urlParams.get('duration')) || 45;
+                userData.activities = urlParams.get('activities') || '';
+                
+                // Save to localStorage
+                saveUserData();
+            }
+        }
+
+        // Load data from localStorage
+        function loadUserData() {
+            const saved = localStorage.getItem('fitLifeUserData');
+            if (saved) {
+                userData = { ...userData, ...JSON.parse(saved) };
+            }
+        }
+
+        // Save data to localStorage
+        function saveUserData() {
+            localStorage.setItem('fitLifeUserData', JSON.stringify(userData));
+        }
+
+        // Initialize on page load
+        loadFromURLParams();
+        loadUserData();
+
+        // Update UI with user data
+        function updateUI() {
+            // Update user info in sidebar and header
+            const initials = userData.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U';
+            document.getElementById('sidebarAvatar').textContent = initials;
+            document.getElementById('sidebarUserName').textContent = userData.name || 'User';
+            document.getElementById('sidebarUserEmail').textContent = userData.email || 'user@email.com';
+            document.getElementById('profileAvatar').textContent = initials;
+            document.getElementById('profileName').textContent = userData.name || 'User';
+            
+            // Update greeting
+            const hour = new Date().getHours();
+            let greeting = 'Good Morning';
+            if (hour >= 12 && hour < 17) greeting = 'Good Afternoon';
+            if (hour >= 17) greeting = 'Good Evening';
+            document.getElementById('greeting').textContent = `${greeting}, ${userData.name.split(' ')[0] || 'User'}`;
+            
+            // Update dashboard stats
+            updateDashboardStats();
+            updateNutritionStats();
+            renderMealsUI();
+            updateWorkoutStats();
+            updateProgressStats();
+            
+            // Update profile form
+            loadProfileData();
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const totalCaloriesBurned = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
+            const calorieGoal = userData.calorieGoal || 2000;
+            const caloriePercent = Math.min((totalCaloriesBurned / calorieGoal) * 100, 100);
+            
+            const activeGoal = 60;
+            const activePercent = Math.min((userData.activeMinutes / activeGoal) * 100, 100);
+            
+            // Update header quick stats
+            document.getElementById('headerCalories').textContent = totalCaloriesBurned.toLocaleString();
+            
+            // Update dashboard cards
+            document.getElementById('dashboardCalories').textContent = totalCaloriesBurned.toLocaleString();
+            document.getElementById('caloriesProgress').style.width = caloriePercent + '%';
+            document.getElementById('caloriesPercent').textContent = Math.round(caloriePercent) + '% of goal';
+            document.getElementById('caloriesGoal').textContent = calorieGoal + ' cal';
+            document.getElementById('caloriesBadge').textContent = '+' + Math.round(caloriePercent) + '%';
+            
+            document.getElementById('dashboardActiveTime').textContent = userData.activeMinutes + ' min';
+            document.getElementById('activeProgress').style.width = activePercent + '%';
+            document.getElementById('activePercent').textContent = Math.round(activePercent) + '% of goal';
+            document.getElementById('activeBadge').textContent = '+' + Math.round(activePercent) + '%';
+
+            const workoutsCount = userData.workouts.length;
+            const weeklyWorkoutsGoal = 7;
+            const workoutsPercent = Math.min((workoutsCount / weeklyWorkoutsGoal) * 100, 100);
+
+            document.getElementById('dashboardWorkouts').textContent = workoutsCount.toLocaleString();
+            document.getElementById('workoutsProgress').style.width = workoutsPercent + '%';
+            document.getElementById('workoutsCount').textContent = workoutsCount + ' workouts';
+            document.getElementById('workoutsGoalDisplay').textContent = weeklyWorkoutsGoal + ' / week';
+            document.getElementById('workoutsBadge').textContent = workoutsCount.toLocaleString();
+
+            // Meals summary
+            const mealsCount = (userData.meals || []).filter(m => (m.foods || []).length > 0).length;
+            const mealsGoal = userData.mealsPerDay || 3;
+            const mealsPercent = Math.min((mealsCount / mealsGoal) * 100, 100);
+
+            document.getElementById('dashboardMeals').textContent = mealsCount.toString();
+            document.getElementById('mealsProgress').style.width = mealsPercent + '%';
+            document.getElementById('mealsCount').textContent = mealsCount + ' meals';
+            document.getElementById('mealsGoalDisplay').textContent = mealsGoal + ' / day';
+            document.getElementById('mealsBadge').textContent = mealsCount.toString();
+        }
+
+        // Update nutrition statistics
+        function updateNutritionStats() {
+            const goal = userData.calorieGoal;
+            const consumed = userData.caloriesConsumed;
+            const remaining = Math.max(goal - consumed, 0);
+            const percent = Math.min((consumed / goal) * 100, 100);
+            
+            document.getElementById('calorieGoalInput').value = goal;
+            document.getElementById('caloriesConsumed').textContent = consumed.toLocaleString();
+            document.getElementById('calorieGoalText').textContent = goal.toLocaleString();
+            document.getElementById('caloriesRemaining').textContent = remaining.toLocaleString();
+            document.getElementById('nutritionProgress').style.width = percent + '%';
+        }
+
+        // Meals & foods
+        function ensureMealsInitialized() {
+            if (!Array.isArray(userData.meals)) {
+                userData.meals = [];
+            }
+            const namesPreset = ['Breakfast', 'Lunch', 'Dinner', 'Snack 1', 'Snack 2', 'Snack 3'];
+            while (userData.meals.length < (userData.mealsPerDay || 3)) {
+                const index = userData.meals.length;
+                userData.meals.push({
+                    name: namesPreset[index] || `Meal ${index + 1}`,
+                    foods: []
+                });
+            }
+            if (userData.meals.length > userData.mealsPerDay) {
+                userData.meals = userData.meals.slice(0, userData.mealsPerDay);
+            }
+        }
+
+        function applyMealsPerDay() {
+            const input = document.getElementById('mealsPerDayInput');
+            const value = parseInt(input.value) || 3;
+            userData.mealsPerDay = Math.min(Math.max(value, 1), 10);
+            ensureMealsInitialized();
+            saveUserData();
+            renderMealsUI();
+            updateDashboardStats();
+        }
+
+        function renderMealsUI() {
+            const container = document.getElementById('mealsContainer');
+            if (!container) return;
+
+            document.getElementById('mealsPerDayInput').value = userData.mealsPerDay || 3;
+            ensureMealsInitialized();
+
+            container.innerHTML = userData.meals.map((meal, index) => {
+                const mealCalories = (meal.foods || []).reduce((sum, f) => sum + (f.calories || 0), 0);
+                return `
+                    <div class="meal-item">
+                        <div class="meal-header">
+                            <div class="meal-name">${meal.name || 'Meal ' + (index + 1)}</div>
+                            <div class="meal-calories"><span id="mealCalories-${index}">${mealCalories.toFixed(0)}</span> cal</div>
+                        </div>
+                        <div class="meal-add-row">
+                            <input type="text" class="form-input" id="foodSearch-${index}" placeholder="Search food..." oninput="updateFoodDropdown(${index})">
+                            <select class="form-select" id="foodSelect-${index}">
+                                <option value="">Select food</option>
+                            </select>
+                            <input type="number" class="form-input" id="foodQuantity-${index}" placeholder="Qty" min="1" value="100">
+                            <select class="form-select" id="foodUnit-${index}">
+                                <option value="g">g</option>
+                            </select>
+                            <button class="btn btn-secondary" type="button" onclick="addFoodToMeal(${index})">Add</button>
+                        </div>
+                        <div class="meal-foods-list" id="mealFoods-${index}">
+                            ${renderMealFoodsHTML(index)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateFoodDropdown(mealIndex) {
+            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
+            const select = document.getElementById(`foodSelect-${mealIndex}`);
+            if (!searchInput || !select) return;
+
+            const term = searchInput.value.toLowerCase();
+            const matches = FOOD_DB.filter(f => f.name.toLowerCase().includes(term)).slice(0, 20);
+
+            select.innerHTML = '<option value="">Select food</option>' + matches.map((food, idx) =>
+                `<option value="${food.name}">${food.name} (${food.caloriesPer100g} cal / 100g)</option>`
+            ).join('');
+        }
+
+        function addFoodToMeal(mealIndex) {
+            ensureMealsInitialized();
+            const select = document.getElementById(`foodSelect-${mealIndex}`);
+            const qtyInput = document.getElementById(`foodQuantity-${mealIndex}`);
+            const unitSelect = document.getElementById(`foodUnit-${mealIndex}`);
+            if (!select || !qtyInput || !unitSelect) return;
+
+            const foodName = select.value || document.getElementById(`foodSearch-${mealIndex}`).value;
+            const quantity = parseFloat(qtyInput.value) || 0;
+            if (!foodName || quantity <= 0) return;
+
+            const base = FOOD_DB.find(f => f.name === foodName);
+            const caloriesPer100g = base ? base.caloriesPer100g : 0;
+            const calories = caloriesPer100g * (quantity / 100);
+
+            userData.meals[mealIndex].foods.push({
+                name: foodName,
+                quantity,
+                unit: unitSelect.value || 'g',
+                calories
+            });
+
+            saveUserData();
+            renderMealsUI();
+            updateDashboardStats();
+        }
+
+        function removeFoodFromMeal(mealIndex, foodIndex) {
+            if (!userData.meals || !userData.meals[mealIndex]) return;
+            userData.meals[mealIndex].foods.splice(foodIndex, 1);
+            saveUserData();
+            renderMealsUI();
+            updateDashboardStats();
+        }
+
+        function renderMealFoodsHTML(mealIndex) {
+            const meal = (userData.meals || [])[mealIndex];
+            if (!meal || !Array.isArray(meal.foods) || meal.foods.length === 0) {
+                return '<p style="font-size: 13px; color: var(--text-muted);">No foods added yet for this meal.</p>';
+            }
+
+            return meal.foods.map((food, idx) => `
+                <div class="meal-food-row">
+                    <div><strong>${food.name}</strong></div>
+                    <div>${food.quantity} ${food.unit}</div>
+                    <div>${food.calories.toFixed(0)} cal</div>
+                    <div><button type="button" class="btn btn-secondary" onclick="removeFoodFromMeal(${mealIndex}, ${idx})">Remove</button></div>
+                </div>
+            `).join('');
+        }
+
+        // Update calorie goal
+        document.getElementById('calorieGoalInput').addEventListener('change', function() {
+            userData.calorieGoal = parseInt(this.value) || 2000;
+            saveUserData();
+            updateUI();
+        });
+
+        // Open calorie modal
+        function openCalorieModal() {
+            document.getElementById('calorieModal').classList.add('show');
+            document.getElementById('calorieForm').reset();
+        }
+
+        // Close calorie modal
+        function closeCalorieModal() {
+            document.getElementById('calorieModal').classList.remove('show');
+        }
+
+        // Add calories
+        function addCalories(event) {
+            event.preventDefault();
+            const amount = parseInt(document.getElementById('calorieAmount').value);
+            userData.caloriesConsumed += amount;
+            saveUserData();
+            updateUI();
+            closeCalorieModal();
+        }
+
+        // Reset calories
+        function resetCalories() {
+            if (confirm('Are you sure you want to reset your calorie count for today?')) {
+                userData.caloriesConsumed = 0;
+                saveUserData();
+                updateUI();
+            }
+        }
+
+        // Update workout statistics
+        function updateWorkoutStats() {
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            
+            const weekWorkouts = userData.workouts.filter(w => {
+                const workoutDate = new Date(w.date);
+                return workoutDate >= weekAgo;
+            }).length;
+            
+            const totalDuration = userData.workouts.reduce((sum, w) => sum + (w.duration || 0), 0);
+            const totalCalories = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
+            
+            document.getElementById('weekWorkouts').textContent = weekWorkouts;
+            document.getElementById('totalDuration').textContent = (totalDuration / 60).toFixed(1) + 'h';
+            document.getElementById('totalCaloriesBurned').textContent = totalCalories.toLocaleString();
+            
+            // Update active minutes from workouts
+            userData.activeMinutes = userData.workouts
+                .filter(w => {
+                    const workoutDate = new Date(w.date);
+                    const today = new Date();
+                    return workoutDate.toDateString() === today.toDateString();
+                })
+                .reduce((sum, w) => sum + (w.duration || 0), 0);
+            
+            renderWorkoutList();
+        }
+
+        // Render workout list
+        function renderWorkoutList() {
+            const container = document.getElementById('workoutList');
+            
+            if (userData.workouts.length === 0) {
+                container.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-muted); padding: 40px 20px;">No workouts yet. Click "Add Workout" to get started!</p></div>';
+                return;
+            }
+            
+            container.innerHTML = userData.workouts.map((workout, index) => {
+                const date = new Date(workout.date);
+                const timeAgo = getTimeAgo(date);
+                
+                return `
+                    <div class="workout-item">
+                        <div class="workout-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6.5 6.5h11"/>
+                                <path d="M6.5 17.5h11"/>
+                                <path d="M12 6.5v11"/>
+                            </svg>
+                        </div>
+                        <div class="workout-info">
+                            <div class="workout-name">${workout.name}</div>
+                            <div class="workout-meta">${timeAgo}</div>
+                        </div>
+                        <div class="workout-stats">
+                            <div>
+                                <div class="workout-stat-value">${workout.duration} min</div>
+                                <div class="workout-stat-label">Duration</div>
+                            </div>
+                            <div>
+                                <div class="workout-stat-value">${workout.calories} cal</div>
+                                <div class="workout-stat-label">Burned</div>
+                            </div>
+                        </div>
+                        <div class="workout-actions">
+                            <button class="workout-action-btn" onclick="editWorkout(${index})">Edit</button>
+                            <button class="workout-action-btn delete" onclick="deleteWorkout(${index})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get time ago string
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 60) return diffMins + ' minutes ago';
+            if (diffHours < 24) return diffHours + ' hours ago';
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return diffDays + ' days ago';
+            return date.toLocaleDateString();
+        }
+
+        // Open workout modal
+        function openWorkoutModal() {
+            document.getElementById('workoutModalTitle').textContent = 'Add Workout';
+            document.getElementById('workoutSubmitBtn').textContent = 'Add Workout';
+            document.getElementById('editWorkoutIndex').value = '-1';
+            document.getElementById('workoutForm').reset();
+            document.getElementById('workoutModal').classList.add('show');
+        }
+
+        // Close workout modal
+        function closeWorkoutModal() {
+            document.getElementById('workoutModal').classList.remove('show');
+        }
+
+        // Save workout
+        function saveWorkout(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('workoutName').value;
+            const duration = parseInt(document.getElementById('workoutDuration').value);
+            const calories = parseInt(document.getElementById('workoutCalories').value);
+            const editIndex = parseInt(document.getElementById('editWorkoutIndex').value);
+            
+            const workout = {
+                name,
+                duration,
+                calories,
+                date: new Date().toISOString()
+            };
+            
+            if (editIndex >= 0) {
+                userData.workouts[editIndex] = workout;
+            } else {
+                userData.workouts.unshift(workout);
+            }
+            
+            saveUserData();
+            updateUI();
+            closeWorkoutModal();
+        }
+
+        // Edit workout
+        function editWorkout(index) {
+            const workout = userData.workouts[index];
+            document.getElementById('workoutModalTitle').textContent = 'Edit Workout';
+            document.getElementById('workoutSubmitBtn').textContent = 'Save Changes';
+            document.getElementById('editWorkoutIndex').value = index;
+            document.getElementById('workoutName').value = workout.name;
+            document.getElementById('workoutDuration').value = workout.duration;
+            document.getElementById('workoutCalories').value = workout.calories;
+            document.getElementById('workoutModal').classList.add('show');
+        }
+
+        // Delete workout
+        function deleteWorkout(index) {
+            if (confirm('Are you sure you want to delete this workout?')) {
+                userData.workouts.splice(index, 1);
+                saveUserData();
+                updateUI();
+            }
+        }
+
+        // Update progress statistics
+        function updateProgressStats() {
+            const weightChange = userData.initialWeight - userData.weight;
+            const workoutCount = userData.workouts.length;
+            
+            // Calculate streak (simplified - just using workout count for now)
+            const streak = Math.min(workoutCount, 30);
+            
+            document.getElementById('currentWeight').textContent = userData.weight + ' kg';
+            document.getElementById('weightChangeBadge').textContent = (weightChange >= 0 ? '-' : '+') + Math.abs(weightChange).toFixed(1) + 'kg';
+            
+            // Calculate goal weight based on goal type
+            let goalWeight = userData.weight;
+            if (userData.goal === 'lose') goalWeight = userData.weight - 5;
+            if (userData.goal === 'muscle') goalWeight = userData.weight + 3;
+            
+            document.getElementById('goalWeight').textContent = goalWeight + ' kg';
+            document.getElementById('progressStreak').textContent = streak;
+            document.getElementById('progressTotalWorkouts').textContent = workoutCount;
+            
+            // Update profile stats
+            document.getElementById('totalWorkouts').textContent = workoutCount;
+            document.getElementById('dayStreak').textContent = streak;
+            document.getElementById('weightLost').textContent = (weightChange >= 0 ? '-' : '+') + Math.abs(weightChange).toFixed(1) + 'kg';
+        }
+
+        // Load profile data into form
+        function loadProfileData() {
+            document.getElementById('profileNameInput').value = userData.name || '';
+            document.getElementById('profileEmailInput').value = userData.email || '';
+            document.getElementById('profileAgeInput').value = userData.age || '';
+            document.getElementById('profileWeightInput').value = userData.weight || '';
+            document.getElementById('profileHeightInput').value = userData.height || '';
+            document.getElementById('profileActivityInput').value = userData.activityLevel || 'moderate';
+        }
+
+        // Handle profile form submission
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            userData.name = document.getElementById('profileNameInput').value;
+            userData.email = document.getElementById('profileEmailInput').value;
+            userData.age = parseInt(document.getElementById('profileAgeInput').value);
+            userData.weight = parseInt(document.getElementById('profileWeightInput').value);
+            userData.height = parseInt(document.getElementById('profileHeightInput').value);
+            userData.activityLevel = document.getElementById('profileActivityInput').value;
+            
+            if (!userData.initialWeight) {
+                userData.initialWeight = userData.weight;
+            }
+            
+            saveUserData();
+            updateUI();
+            alert('Profile updated successfully!');
+        });
+
+        // Navigation
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const menuToggle = document.getElementById('menuToggle');
@@ -2230,7 +2311,6 @@
         const navBtns = document.querySelectorAll('.nav-btn');
         const sections = document.querySelectorAll('.section');
 
-        // Mobile menu toggle
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
             overlay.classList.toggle('show');
@@ -2241,7 +2321,6 @@
             overlay.classList.remove('show');
         });
 
-        // Theme toggle
         themeToggle.addEventListener('click', () => {
             themeToggle.classList.toggle('active');
             document.body.setAttribute('data-theme', 
@@ -2256,16 +2335,13 @@
             document.body.setAttribute('data-theme', 'dark');
         }
 
-        // Navigation
         navBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const sectionId = btn.dataset.section;
 
-                // Update active button
                 navBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
-                // Show corresponding section
                 sections.forEach(section => {
                     section.classList.remove('active');
                     if (section.id === sectionId) {
@@ -2273,7 +2349,6 @@
                     }
                 });
 
-                // Close mobile menu
                 sidebar.classList.remove('open');
                 overlay.classList.remove('show');
             });
@@ -2281,17 +2356,9 @@
 
         // Set current date
         const dateElement = document.getElementById('currentDate');
-        const greetingElement = document.getElementById('greeting');
         const now = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         dateElement.textContent = now.toLocaleDateString('en-US', options);
-
-        // Set greeting based on time
-        const hour = now.getHours();
-        let greeting = 'Good Morning';
-        if (hour >= 12 && hour < 17) greeting = 'Good Afternoon';
-        if (hour >= 17) greeting = 'Good Evening';
-        greetingElement.textContent = `${greeting}, Alex`;
 
         // Initialize activity chart
         function initActivityChart() {
@@ -2307,8 +2374,6 @@
                 const bar = document.createElement('div');
                 bar.className = 'chart-bar';
                 bar.style.height = `${values[index]}%`;
-                bar.style.setProperty('--fill-height', `${values[index]}%`);
-                bar.innerHTML = `<style>.chart-bar:nth-child(1)::after { height: ${values[index]}%; }</style>`;
 
                 const label = document.createElement('span');
                 label.className = 'chart-label';
@@ -2317,14 +2382,8 @@
                 wrapper.appendChild(bar);
                 wrapper.appendChild(label);
                 container.appendChild(wrapper);
-
-                // Animate bars
-                setTimeout(() => {
-                    bar.style.cssText = `height: ${values[index]}%; --fill: ${values[index]}%`;
-                }, index * 100);
             });
 
-            // Add fill styles
             const style = document.createElement('style');
             style.textContent = days.map((_, i) => 
                 `.chart-bar-wrapper:nth-child(${i + 1}) .chart-bar::after { height: ${values[i]}%; }`
@@ -2336,7 +2395,16 @@
         function initWeightChart() {
             const container = document.getElementById('weightChart');
             const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
-            const weights = [77.2, 76.5, 75.1, 74.2, 73.0, 72.0];
+            const startWeight = userData.initialWeight || userData.weight;
+            const currentWeight = userData.weight;
+            const weightDiff = startWeight - currentWeight;
+            const monthlyChange = weightDiff / 6;
+            
+            const weights = [];
+            for (let i = 0; i < 6; i++) {
+                weights.push(startWeight - (monthlyChange * i));
+            }
+            
             const maxWeight = Math.max(...weights);
             const minWeight = Math.min(...weights) - 2;
             const range = maxWeight - minWeight;
@@ -2361,7 +2429,6 @@
                 container.appendChild(wrapper);
             });
 
-            // Add fill styles for weight chart
             const style = document.createElement('style');
             style.textContent = months.map((_, i) => {
                 const heightPercent = ((weights[i] - minWeight) / range) * 100;
@@ -2383,648 +2450,16 @@
             });
         });
 
-        // ============================================
-        // NUTRITION SECTION FUNCTIONALITY
-        // ============================================
-
-        // Comprehensive food database with calories per serving
-        const foodDatabase = [
-            // Breakfast Foods
-            { name: 'Oatmeal (1 cup)', calories: 158, category: 'Breakfast' },
-            { name: 'Scrambled Eggs (2 eggs)', calories: 182, category: 'Breakfast' },
-            { name: 'Boiled Egg (1 egg)', calories: 78, category: 'Breakfast' },
-            { name: 'Fried Egg (1 egg)', calories: 90, category: 'Breakfast' },
-            { name: 'Pancakes (3 medium)', calories: 350, category: 'Breakfast' },
-            { name: 'Waffle (1 large)', calories: 218, category: 'Breakfast' },
-            { name: 'Bagel (1 medium)', calories: 245, category: 'Breakfast' },
-            { name: 'Toast with Butter (2 slices)', calories: 200, category: 'Breakfast' },
-            { name: 'Croissant (1 medium)', calories: 231, category: 'Breakfast' },
-            { name: 'Granola (1 cup)', calories: 597, category: 'Breakfast' },
-            { name: 'Cereal with Milk (1 bowl)', calories: 220, category: 'Breakfast' },
-            { name: 'French Toast (2 slices)', calories: 300, category: 'Breakfast' },
-            { name: 'Bacon (3 strips)', calories: 161, category: 'Breakfast' },
-            { name: 'Sausage (2 links)', calories: 180, category: 'Breakfast' },
-            { name: 'Hash Browns (1 cup)', calories: 413, category: 'Breakfast' },
-            
-            // Proteins
-            { name: 'Grilled Chicken Breast (150g)', calories: 165, category: 'Protein' },
-            { name: 'Baked Salmon (150g)', calories: 280, category: 'Protein' },
-            { name: 'Grilled Steak (200g)', calories: 450, category: 'Protein' },
-            { name: 'Turkey Breast (150g)', calories: 135, category: 'Protein' },
-            { name: 'Tuna (1 can)', calories: 191, category: 'Protein' },
-            { name: 'Shrimp (100g)', calories: 99, category: 'Protein' },
-            { name: 'Tofu (100g)', calories: 76, category: 'Protein' },
-            { name: 'Ground Beef (150g)', calories: 384, category: 'Protein' },
-            { name: 'Pork Chop (150g)', calories: 289, category: 'Protein' },
-            { name: 'Lamb (150g)', calories: 294, category: 'Protein' },
-            { name: 'Cod Fish (150g)', calories: 140, category: 'Protein' },
-            { name: 'Tilapia (150g)', calories: 163, category: 'Protein' },
-            { name: 'Chicken Thigh (150g)', calories: 229, category: 'Protein' },
-            { name: 'Duck Breast (150g)', calories: 337, category: 'Protein' },
-            
-            // Dairy
-            { name: 'Greek Yogurt (1 cup)', calories: 130, category: 'Dairy' },
-            { name: 'Milk (1 glass)', calories: 149, category: 'Dairy' },
-            { name: 'Cheese (30g)', calories: 113, category: 'Dairy' },
-            { name: 'Cottage Cheese (1 cup)', calories: 206, category: 'Dairy' },
-            { name: 'Mozzarella (30g)', calories: 85, category: 'Dairy' },
-            { name: 'Cheddar Cheese (30g)', calories: 120, category: 'Dairy' },
-            { name: 'Cream Cheese (2 tbsp)', calories: 99, category: 'Dairy' },
-            { name: 'Butter (1 tbsp)', calories: 102, category: 'Dairy' },
-            { name: 'Sour Cream (2 tbsp)', calories: 60, category: 'Dairy' },
-            { name: 'Almond Milk (1 cup)', calories: 39, category: 'Dairy' },
-            { name: 'Oat Milk (1 cup)', calories: 120, category: 'Dairy' },
-            
-            // Fruits
-            { name: 'Apple (1 medium)', calories: 95, category: 'Fruit' },
-            { name: 'Banana (1 medium)', calories: 105, category: 'Fruit' },
-            { name: 'Orange (1 medium)', calories: 62, category: 'Fruit' },
-            { name: 'Strawberries (1 cup)', calories: 49, category: 'Fruit' },
-            { name: 'Blueberries (1 cup)', calories: 84, category: 'Fruit' },
-            { name: 'Grapes (1 cup)', calories: 104, category: 'Fruit' },
-            { name: 'Watermelon (1 cup)', calories: 46, category: 'Fruit' },
-            { name: 'Mango (1 cup)', calories: 99, category: 'Fruit' },
-            { name: 'Pineapple (1 cup)', calories: 82, category: 'Fruit' },
-            { name: 'Avocado (1 whole)', calories: 322, category: 'Fruit' },
-            { name: 'Peach (1 medium)', calories: 59, category: 'Fruit' },
-            { name: 'Pear (1 medium)', calories: 102, category: 'Fruit' },
-            { name: 'Kiwi (1 medium)', calories: 42, category: 'Fruit' },
-            { name: 'Raspberries (1 cup)', calories: 64, category: 'Fruit' },
-            { name: 'Cantaloupe (1 cup)', calories: 54, category: 'Fruit' },
-            
-            // Vegetables
-            { name: 'Broccoli (1 cup)', calories: 55, category: 'Vegetable' },
-            { name: 'Spinach (1 cup raw)', calories: 7, category: 'Vegetable' },
-            { name: 'Carrots (1 cup)', calories: 52, category: 'Vegetable' },
-            { name: 'Sweet Potato (1 medium)', calories: 103, category: 'Vegetable' },
-            { name: 'Potato (1 medium)', calories: 161, category: 'Vegetable' },
-            { name: 'Tomato (1 medium)', calories: 22, category: 'Vegetable' },
-            { name: 'Cucumber (1 cup)', calories: 16, category: 'Vegetable' },
-            { name: 'Bell Pepper (1 medium)', calories: 24, category: 'Vegetable' },
-            { name: 'Zucchini (1 cup)', calories: 19, category: 'Vegetable' },
-            { name: 'Mushrooms (1 cup)', calories: 15, category: 'Vegetable' },
-            { name: 'Onion (1 medium)', calories: 44, category: 'Vegetable' },
-            { name: 'Corn (1 cup)', calories: 132, category: 'Vegetable' },
-            { name: 'Green Beans (1 cup)', calories: 31, category: 'Vegetable' },
-            { name: 'Asparagus (1 cup)', calories: 27, category: 'Vegetable' },
-            { name: 'Cauliflower (1 cup)', calories: 27, category: 'Vegetable' },
-            { name: 'Kale (1 cup)', calories: 33, category: 'Vegetable' },
-            { name: 'Lettuce (1 cup)', calories: 5, category: 'Vegetable' },
-            
-            // Grains & Carbs
-            { name: 'White Rice (1 cup cooked)', calories: 206, category: 'Grains' },
-            { name: 'Brown Rice (1 cup cooked)', calories: 216, category: 'Grains' },
-            { name: 'Pasta (1 cup cooked)', calories: 221, category: 'Grains' },
-            { name: 'Whole Wheat Bread (1 slice)', calories: 81, category: 'Grains' },
-            { name: 'White Bread (1 slice)', calories: 79, category: 'Grains' },
-            { name: 'Quinoa (1 cup cooked)', calories: 222, category: 'Grains' },
-            { name: 'Couscous (1 cup cooked)', calories: 176, category: 'Grains' },
-            { name: 'Tortilla (1 medium)', calories: 144, category: 'Grains' },
-            { name: 'Pita Bread (1 piece)', calories: 165, category: 'Grains' },
-            { name: 'Naan Bread (1 piece)', calories: 262, category: 'Grains' },
-            
-            // Legumes & Nuts
-            { name: 'Black Beans (1 cup)', calories: 227, category: 'Legumes' },
-            { name: 'Chickpeas (1 cup)', calories: 269, category: 'Legumes' },
-            { name: 'Lentils (1 cup)', calories: 230, category: 'Legumes' },
-            { name: 'Almonds (1 oz)', calories: 164, category: 'Nuts' },
-            { name: 'Peanuts (1 oz)', calories: 161, category: 'Nuts' },
-            { name: 'Walnuts (1 oz)', calories: 185, category: 'Nuts' },
-            { name: 'Cashews (1 oz)', calories: 157, category: 'Nuts' },
-            { name: 'Peanut Butter (2 tbsp)', calories: 188, category: 'Nuts' },
-            { name: 'Almond Butter (2 tbsp)', calories: 196, category: 'Nuts' },
-            { name: 'Mixed Nuts (1 oz)', calories: 173, category: 'Nuts' },
-            
-            // Prepared Meals
-            { name: 'Grilled Chicken Salad', calories: 350, category: 'Meal' },
-            { name: 'Caesar Salad', calories: 470, category: 'Meal' },
-            { name: 'Chicken Sandwich', calories: 450, category: 'Meal' },
-            { name: 'Turkey Sandwich', calories: 380, category: 'Meal' },
-            { name: 'Veggie Burger', calories: 390, category: 'Meal' },
-            { name: 'Beef Burger', calories: 540, category: 'Meal' },
-            { name: 'Spaghetti Bolognese', calories: 520, category: 'Meal' },
-            { name: 'Chicken Stir Fry', calories: 380, category: 'Meal' },
-            { name: 'Fish Tacos (2)', calories: 420, category: 'Meal' },
-            { name: 'Pizza Slice (1 large)', calories: 285, category: 'Meal' },
-            { name: 'Sushi Roll (8 pieces)', calories: 350, category: 'Meal' },
-            { name: 'Burrito Bowl', calories: 650, category: 'Meal' },
-            { name: 'Chicken Wrap', calories: 410, category: 'Meal' },
-            { name: 'Soup (1 bowl)', calories: 150, category: 'Meal' },
-            { name: 'Grilled Fish with Vegetables', calories: 320, category: 'Meal' },
-            
-            // Snacks
-            { name: 'Protein Bar', calories: 200, category: 'Snack' },
-            { name: 'Granola Bar', calories: 140, category: 'Snack' },
-            { name: 'Rice Cake (1)', calories: 35, category: 'Snack' },
-            { name: 'Popcorn (3 cups)', calories: 93, category: 'Snack' },
-            { name: 'Chips (1 oz)', calories: 152, category: 'Snack' },
-            { name: 'Crackers (10)', calories: 130, category: 'Snack' },
-            { name: 'Hummus (2 tbsp)', calories: 50, category: 'Snack' },
-            { name: 'Trail Mix (1 oz)', calories: 131, category: 'Snack' },
-            { name: 'Dark Chocolate (1 oz)', calories: 170, category: 'Snack' },
-            { name: 'Fruit Smoothie (1 cup)', calories: 180, category: 'Snack' },
-            { name: 'Protein Shake', calories: 150, category: 'Snack' },
-            
-            // Drinks
-            { name: 'Coffee (black)', calories: 2, category: 'Drink' },
-            { name: 'Coffee with Milk', calories: 30, category: 'Drink' },
-            { name: 'Latte', calories: 150, category: 'Drink' },
-            { name: 'Cappuccino', calories: 80, category: 'Drink' },
-            { name: 'Green Tea', calories: 0, category: 'Drink' },
-            { name: 'Orange Juice (1 glass)', calories: 112, category: 'Drink' },
-            { name: 'Apple Juice (1 glass)', calories: 114, category: 'Drink' },
-            { name: 'Soda (1 can)', calories: 140, category: 'Drink' },
-            { name: 'Energy Drink', calories: 110, category: 'Drink' },
-            { name: 'Sports Drink (1 bottle)', calories: 80, category: 'Drink' },
-            { name: 'Coconut Water (1 cup)', calories: 46, category: 'Drink' },
-            
-            // Desserts
-            { name: 'Ice Cream (1/2 cup)', calories: 137, category: 'Dessert' },
-            { name: 'Brownie (1 piece)', calories: 227, category: 'Dessert' },
-            { name: 'Cookie (1 medium)', calories: 78, category: 'Dessert' },
-            { name: 'Cheesecake (1 slice)', calories: 401, category: 'Dessert' },
-            { name: 'Chocolate Cake (1 slice)', calories: 352, category: 'Dessert' },
-            { name: 'Donut (1 medium)', calories: 289, category: 'Dessert' },
-            { name: 'Muffin (1 medium)', calories: 340, category: 'Dessert' },
-            { name: 'Frozen Yogurt (1/2 cup)', calories: 110, category: 'Dessert' },
-            { name: 'Fruit Salad (1 cup)', calories: 75, category: 'Dessert' }
-        ];
-
-        const mealTypes = [
-            { name: 'Breakfast', icon: 'sunrise', time: '7:00 AM' },
-            { name: 'Morning Snack', icon: 'coffee', time: '10:00 AM' },
-            { name: 'Lunch', icon: 'sun', time: '12:30 PM' },
-            { name: 'Afternoon Snack', icon: 'cookie', time: '3:30 PM' },
-            { name: 'Dinner', icon: 'moon', time: '7:00 PM' },
-            { name: 'Evening Snack', icon: 'star', time: '9:00 PM' }
-        ];
-
-        const mealIcons = {
-            sunrise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 1 0-7.894 0"/><path d="M6 20h12"/><path d="M12 12V8"/></svg>',
-            coffee: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg>',
-            sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
-            cookie: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>',
-            moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
-            star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
-        };
-
-        // Nutrition data state
-        let nutritionData = {
-            meals: [],
-            calorieGoal: 2000
-        };
-
-        // Selected food state for add modal
-        let selectedFood = null;
-        let editSelectedFood = null;
-
-        // Search food database
-        function searchFoods(query) {
-            if (!query || query.length < 2) return [];
-            const searchTerm = query.toLowerCase();
-            return foodDatabase.filter(food => 
-                food.name.toLowerCase().includes(searchTerm) ||
-                food.category.toLowerCase().includes(searchTerm)
-            ).slice(0, 8);
-        }
-
-        // Render search results
-        function renderSearchResults(results, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            if (results.length === 0) {
-                container.innerHTML = '<div class="no-results">No foods found. Try a different search.</div>';
-                container.classList.add('show');
-                return;
-            }
-
-            container.innerHTML = results.map(food => `
-                <div class="search-result-item" data-name="${food.name}" data-calories="${food.calories}">
-                    <div class="search-result-info">
-                        <span class="search-result-name">${food.name}</span>
-                        <span class="search-result-category">${food.category}</span>
-                    </div>
-                    <span class="search-result-calories">${food.calories} cal</span>
-                </div>
-            `).join('');
-            container.classList.add('show');
-        }
-
-        // Select a food from search results (Add Modal)
-        function selectFood(name, calories) {
-            selectedFood = { name, calories };
-            document.getElementById('foodSearch').value = name;
-            document.getElementById('selectedFoodCalories').value = calories;
-            document.getElementById('selectedFoodName').textContent = name;
-            document.getElementById('selectedFoodCaloriesDisplay').textContent = calories + ' cal per serving';
-            document.getElementById('selectedFoodDisplay').style.display = 'flex';
-            document.getElementById('searchResults').classList.remove('show');
-            document.getElementById('clearSearch').style.display = 'none';
-            document.getElementById('foodSearch').style.display = 'none';
-            document.getElementById('addFoodBtn').disabled = false;
-            updateAddCaloriePreview();
-        }
-
-        // Clear selected food (Add Modal)
-        function clearSelectedFood() {
-            selectedFood = null;
-            document.getElementById('foodSearch').value = '';
-            document.getElementById('foodSearch').style.display = 'block';
-            document.getElementById('selectedFoodCalories').value = '';
-            document.getElementById('selectedFoodDisplay').style.display = 'none';
-            document.getElementById('addFoodBtn').disabled = true;
-            document.getElementById('caloriePreview').textContent = '0';
-        }
-
-        // Select a food from search results (Edit Modal)
-        function selectEditFood(name, calories) {
-            editSelectedFood = { name, calories };
-            document.getElementById('editFoodSearch').value = name;
-            document.getElementById('editSelectedFoodCalories').value = calories;
-            document.getElementById('editSelectedFoodName').textContent = name;
-            document.getElementById('editSelectedFoodCaloriesDisplay').textContent = calories + ' cal per serving';
-            document.getElementById('editSelectedFoodDisplay').style.display = 'flex';
-            document.getElementById('editSearchResults').classList.remove('show');
-            document.getElementById('editClearSearch').style.display = 'none';
-            document.getElementById('editFoodSearch').style.display = 'none';
-            updateEditCaloriePreview();
-        }
-
-        // Clear selected food (Edit Modal)
-        function clearEditSelectedFood() {
-            editSelectedFood = null;
-            document.getElementById('editFoodSearch').value = '';
-            document.getElementById('editFoodSearch').style.display = 'block';
-            document.getElementById('editSelectedFoodCalories').value = '';
-            document.getElementById('editSelectedFoodDisplay').style.display = 'none';
-            document.getElementById('editCaloriePreview').textContent = '0';
-        }
-
-        // Load saved nutrition data
-        function loadNutritionData() {
-            const saved = localStorage.getItem('nutritionData');
-            if (saved) {
-                nutritionData = JSON.parse(saved);
-                document.getElementById('calorieGoal').value = nutritionData.calorieGoal;
-                document.getElementById('mealCount').value = nutritionData.meals.length || 3;
-            }
-            renderMeals();
-            updateDailySummary();
-        }
-
-        // Save nutrition data
-        function saveNutritionData() {
-            localStorage.setItem('nutritionData', JSON.stringify(nutritionData));
-        }
-
-        // Initialize meals based on count
-        function initializeMeals(count) {
-            const existingFoods = nutritionData.meals.map(m => m.foods);
-            nutritionData.meals = [];
-            
-            for (let i = 0; i < count; i++) {
-                nutritionData.meals.push({
-                    ...mealTypes[i],
-                    foods: existingFoods[i] || []
-                });
-            }
-            saveNutritionData();
-            renderMeals();
-            updateDailySummary();
-        }
-
-        // Render all meals
-        function renderMeals() {
-            const container = document.getElementById('mealsContainer');
-            if (!container) return;
-
-            container.innerHTML = nutritionData.meals.map((meal, mealIndex) => {
-                const mealCalories = meal.foods.reduce((sum, food) => sum + (food.quantity * food.caloriesPerUnit), 0);
-                
-                return `
-                    <div class="meal-card">
-                        <div class="meal-header">
-                            <div class="meal-header-left">
-                                <div class="meal-icon">
-                                    ${mealIcons[meal.icon]}
-                                </div>
-                                <div class="meal-info">
-                                    <div class="meal-title">${meal.name}</div>
-                                    <div class="meal-calories"><strong>${Math.round(mealCalories)}</strong> cal total</div>
-                                </div>
-                            </div>
-                            <button class="add-food-btn" onclick="openAddFoodModal(${mealIndex})">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 5v14"/>
-                                    <path d="M5 12h14"/>
-                                </svg>
-                                Add Food
-                            </button>
-                        </div>
-                        <div class="meal-items" id="mealItems-${mealIndex}">
-                            ${meal.foods.length === 0 ? 
-                                '<div class="empty-meal">No food items added yet. Click "Add Food" to get started.</div>' :
-                                meal.foods.map((food, foodIndex) => `
-                                    <div class="meal-item">
-                                        <div class="meal-item-left">
-                                            <div class="meal-item-name">${food.name}</div>
-                                            <div class="meal-item-details">${food.quantity} x ${food.caloriesPerUnit} cal</div>
-                                        </div>
-                                        <div class="meal-item-right">
-                                            <span class="meal-item-calories">${Math.round(food.quantity * food.caloriesPerUnit)} cal</span>
-                                            <div class="meal-item-actions">
-                                                <button class="item-action-btn" onclick="openEditFoodModal(${mealIndex}, ${foodIndex})" title="Edit">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                                                        <path d="m15 5 4 4"/>
-                                                    </svg>
-                                                </button>
-                                                <button class="item-action-btn delete" onclick="deleteFoodItem(${mealIndex}, ${foodIndex})" title="Delete">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                        <path d="M3 6h18"/>
-                                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')
-                            }
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Update daily summary
-        function updateDailySummary() {
-            const totalCalories = nutritionData.meals.reduce((sum, meal) => {
-                return sum + meal.foods.reduce((mealSum, food) => mealSum + (food.quantity * food.caloriesPerUnit), 0);
-            }, 0);
-
-            const goal = nutritionData.calorieGoal;
-            const percentage = Math.min((totalCalories / goal) * 100, 100);
-            const remaining = Math.max(goal - totalCalories, 0);
-
-            document.getElementById('totalCaloriesDisplay').textContent = Math.round(totalCalories).toLocaleString();
-            document.getElementById('goalDisplay').textContent = goal.toLocaleString();
-            document.getElementById('percentageDisplay').textContent = `${Math.round(percentage)}% of daily goal`;
-            document.getElementById('remainingDisplay').textContent = totalCalories > goal ? 
-                `${Math.round(totalCalories - goal)} cal over goal` : 
-                `${Math.round(remaining)} cal remaining`;
-
-            const progressFill = document.getElementById('calorieProgressFill');
-            progressFill.style.width = `${Math.min(percentage, 100)}%`;
-            
-            // Update color based on progress
-            progressFill.classList.remove('warning', 'danger');
-            if (percentage > 100) {
-                progressFill.classList.add('danger');
-            } else if (percentage > 85) {
-                progressFill.classList.add('warning');
-            }
-        }
-
-        // Open add food modal
-        function openAddFoodModal(mealIndex) {
-            document.getElementById('currentMealIndex').value = mealIndex;
-            document.getElementById('modalMealName').textContent = nutritionData.meals[mealIndex].name;
-            document.getElementById('addFoodForm').reset();
-            document.getElementById('foodQuantity').value = 1;
-            document.getElementById('caloriePreview').textContent = '0';
-            clearSelectedFood();
-            document.getElementById('foodSearch').style.display = 'block';
-            document.getElementById('addFoodModal').classList.add('show');
-        }
-
-        // Close add food modal
-        function closeAddFoodModal() {
-            document.getElementById('addFoodModal').classList.remove('show');
-            document.getElementById('searchResults').classList.remove('show');
-            clearSelectedFood();
-        }
-
-        // Open edit food modal
-        function openEditFoodModal(mealIndex, foodIndex) {
-            const food = nutritionData.meals[mealIndex].foods[foodIndex];
-            document.getElementById('editMealIndex').value = mealIndex;
-            document.getElementById('editFoodIndex').value = foodIndex;
-            document.getElementById('editFoodQuantity').value = food.quantity;
-            
-            // Pre-select the current food
-            editSelectedFood = { name: food.name, calories: food.caloriesPerUnit };
-            document.getElementById('editFoodSearch').value = food.name;
-            document.getElementById('editFoodSearch').style.display = 'none';
-            document.getElementById('editSelectedFoodCalories').value = food.caloriesPerUnit;
-            document.getElementById('editSelectedFoodName').textContent = food.name;
-            document.getElementById('editSelectedFoodCaloriesDisplay').textContent = food.caloriesPerUnit + ' cal per serving';
-            document.getElementById('editSelectedFoodDisplay').style.display = 'flex';
-            document.getElementById('editCaloriePreview').textContent = Math.round(food.quantity * food.caloriesPerUnit);
-            document.getElementById('editFoodModal').classList.add('show');
-        }
-
-        // Close edit food modal
-        function closeEditFoodModal() {
-            document.getElementById('editFoodModal').classList.remove('show');
-            document.getElementById('editSearchResults').classList.remove('show');
-            clearEditSelectedFood();
-        }
-
-        // Add food item
-        function addFoodItem(event) {
-            event.preventDefault();
-            
-            if (!selectedFood) return;
-            
-            const mealIndex = parseInt(document.getElementById('currentMealIndex').value);
-            const quantity = parseFloat(document.getElementById('foodQuantity').value);
-
-            if (selectedFood.name && quantity > 0) {
-                nutritionData.meals[mealIndex].foods.push({
-                    name: selectedFood.name,
-                    quantity,
-                    caloriesPerUnit: selectedFood.calories
-                });
-                saveNutritionData();
-                renderMeals();
-                updateDailySummary();
-                closeAddFoodModal();
-            }
-        }
-
-        // Update food item
-        function updateFoodItem(event) {
-            event.preventDefault();
-            
-            if (!editSelectedFood) return;
-            
-            const mealIndex = parseInt(document.getElementById('editMealIndex').value);
-            const foodIndex = parseInt(document.getElementById('editFoodIndex').value);
-            const quantity = parseFloat(document.getElementById('editFoodQuantity').value);
-
-            if (editSelectedFood.name && quantity > 0) {
-                nutritionData.meals[mealIndex].foods[foodIndex] = {
-                    name: editSelectedFood.name,
-                    quantity,
-                    caloriesPerUnit: editSelectedFood.calories
-                };
-                saveNutritionData();
-                renderMeals();
-                updateDailySummary();
-                closeEditFoodModal();
-            }
-        }
-
-        // Delete food item
-        function deleteFoodItem(mealIndex, foodIndex) {
-            nutritionData.meals[mealIndex].foods.splice(foodIndex, 1);
-            saveNutritionData();
-            renderMeals();
-            updateDailySummary();
-        }
-
-        // Update calorie preview in add modal
-        function updateAddCaloriePreview() {
-            const quantity = parseFloat(document.getElementById('foodQuantity').value) || 0;
-            const caloriesPerUnit = selectedFood ? selectedFood.calories : 0;
-            document.getElementById('caloriePreview').textContent = Math.round(quantity * caloriesPerUnit);
-        }
-
-        // Update calorie preview in edit modal
-        function updateEditCaloriePreview() {
-            const quantity = parseFloat(document.getElementById('editFoodQuantity').value) || 0;
-            const caloriesPerUnit = editSelectedFood ? editSelectedFood.calories : 0;
-            document.getElementById('editCaloriePreview').textContent = Math.round(quantity * caloriesPerUnit);
-        }
-
-        // Setup search functionality for Add Modal
-        const foodSearchInput = document.getElementById('foodSearch');
-        const searchResultsContainer = document.getElementById('searchResults');
-        const clearSearchBtn = document.getElementById('clearSearch');
-
-        if (foodSearchInput) {
-            foodSearchInput.addEventListener('input', (e) => {
-                const query = e.target.value;
-                clearSearchBtn.style.display = query ? 'flex' : 'none';
-                
-                if (query.length >= 2) {
-                    const results = searchFoods(query);
-                    renderSearchResults(results, 'searchResults');
-                } else {
-                    searchResultsContainer.classList.remove('show');
-                }
-            });
-
-            foodSearchInput.addEventListener('focus', (e) => {
-                if (e.target.value.length >= 2) {
-                    const results = searchFoods(e.target.value);
-                    renderSearchResults(results, 'searchResults');
-                }
-            });
-        }
-
-        if (clearSearchBtn) {
-            clearSearchBtn.addEventListener('click', () => {
-                foodSearchInput.value = '';
-                clearSearchBtn.style.display = 'none';
-                searchResultsContainer.classList.remove('show');
-            });
-        }
-
-        if (searchResultsContainer) {
-            searchResultsContainer.addEventListener('click', (e) => {
-                const item = e.target.closest('.search-result-item');
-                if (item) {
-                    selectFood(item.dataset.name, parseInt(item.dataset.calories));
-                }
-            });
-        }
-
-        // Setup search functionality for Edit Modal
-        const editFoodSearchInput = document.getElementById('editFoodSearch');
-        const editSearchResultsContainer = document.getElementById('editSearchResults');
-        const editClearSearchBtn = document.getElementById('editClearSearch');
-
-        if (editFoodSearchInput) {
-            editFoodSearchInput.addEventListener('input', (e) => {
-                const query = e.target.value;
-                editClearSearchBtn.style.display = query ? 'flex' : 'none';
-                
-                if (query.length >= 2) {
-                    const results = searchFoods(query);
-                    renderSearchResults(results, 'editSearchResults');
-                } else {
-                    editSearchResultsContainer.classList.remove('show');
-                }
-            });
-
-            editFoodSearchInput.addEventListener('focus', (e) => {
-                if (e.target.value.length >= 2) {
-                    const results = searchFoods(e.target.value);
-                    renderSearchResults(results, 'editSearchResults');
-                }
-            });
-        }
-
-        if (editClearSearchBtn) {
-            editClearSearchBtn.addEventListener('click', () => {
-                editFoodSearchInput.value = '';
-                editClearSearchBtn.style.display = 'none';
-                editSearchResultsContainer.classList.remove('show');
-            });
-        }
-
-        if (editSearchResultsContainer) {
-            editSearchResultsContainer.addEventListener('click', (e) => {
-                const item = e.target.closest('.search-result-item');
-                if (item) {
-                    selectEditFood(item.dataset.name, parseInt(item.dataset.calories));
-                }
-            });
-        }
-
-        // Quantity change handlers
-        document.getElementById('foodQuantity')?.addEventListener('input', updateAddCaloriePreview);
-        document.getElementById('editFoodQuantity')?.addEventListener('input', updateEditCaloriePreview);
-
-        // Meal count change handler
-        document.getElementById('mealCount')?.addEventListener('change', (e) => {
-            initializeMeals(parseInt(e.target.value));
-        });
-
-        // Calorie goal change handler
-        document.getElementById('calorieGoal')?.addEventListener('change', (e) => {
-            nutritionData.calorieGoal = parseInt(e.target.value) || 2000;
-            saveNutritionData();
-            updateDailySummary();
-        });
-
         // Close modals when clicking outside
-        document.getElementById('addFoodModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'addFoodModal') closeAddFoodModal();
+        document.getElementById('calorieModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'calorieModal') closeCalorieModal();
         });
-        document.getElementById('editFoodModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'editFoodModal') closeEditFoodModal();
-        });
-
-        // Close search results when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-container') && !e.target.closest('.search-result-item')) {
-                document.getElementById('searchResults')?.classList.remove('show');
-                document.getElementById('editSearchResults')?.classList.remove('show');
-            }
+        document.getElementById('workoutModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'workoutModal') closeWorkoutModal();
         });
 
-        // Initialize nutrition on page load
-        if (document.getElementById('mealsContainer')) {
-            if (!localStorage.getItem('nutritionData')) {
-                initializeMeals(3);
-            } else {
-                loadNutritionData();
-            }
-        }
+        // Initialize UI
+        updateUI();
     </script>
 </body>
 </html>
