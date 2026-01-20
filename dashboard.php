@@ -1575,6 +1575,10 @@
                                 <div style="font-size: 14px; color: var(--text-muted);">remaining</div>
                             </div>
                         </div>
+                        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; color: var(--text-muted);">
+                            <div><strong style="color: var(--text-primary);">From meals:</strong> <span id="caloriesFromMeals">0</span> cal</div>
+                            <div><strong style="color: var(--text-primary);">Burned (workouts):</strong> <span id="caloriesBurnedWorkouts">0</span> cal</div>
+                        </div>
                         <div class="progress-bar" style="height: 12px;">
                             <div class="progress-fill green" id="nutritionProgress" style="width: 0%"></div>
                         </div>
@@ -1938,6 +1942,11 @@
             document.getElementById('calorieGoalText').textContent = goal.toLocaleString();
             document.getElementById('caloriesRemaining').textContent = remaining.toLocaleString();
             document.getElementById('nutritionProgress').style.width = percent + '%';
+
+            // Calorie summary breakdown
+            document.getElementById('caloriesFromMeals').textContent = consumedFromMeals.toFixed(0);
+            const burnedFromWorkouts = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
+            document.getElementById('caloriesBurnedWorkouts').textContent = burnedFromWorkouts.toLocaleString();
         }
 
         // Meals & foods
