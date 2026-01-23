@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLife Dashboard</title>
+    <title>BitTracker - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- =====================================================
+         DASHBOARD.PHP - FILLIMI I FILE-IT
+         Ky file perfshin: Dashboard, Stats, Nutrition, Profile
+         ===================================================== -->
+    
     <style>
+        /* =====================================================
+           GLOBAL STYLES & CSS VARIABLES
+           ===================================================== */
         * {
             margin: 0;
             padding: 0;
@@ -12,178 +22,266 @@
         }
 
         :root {
-            --bg-primary: #f8faf9;
-            --bg-secondary: #ffffff;
-            --bg-sidebar: #ffffff;
-            --text-primary: #1a2e1a;
-            --text-secondary: #5a6b5a;
-            --text-muted: #8a9a8a;
-            --accent: #4a9d7c;
-            --accent-light: #e8f5f0;
-            --accent-hover: #3d8a6c;
-            --border: #e5ebe5;
-            --shadow: rgba(0, 0, 0, 0.05);
-            --shadow-lg: rgba(0, 0, 0, 0.1);
-            --card-bg: #ffffff;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f1610;
-            --bg-secondary: #1a231a;
-            --bg-sidebar: #141c14;
-            --text-primary: #e8f0e8;
-            --text-secondary: #a8b8a8;
-            --text-muted: #6a7a6a;
-            --accent: #5ab88c;
-            --accent-light: #1a2e22;
-            --accent-hover: #6cc89c;
-            --border: #2a3a2a;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-lg: rgba(0, 0, 0, 0.4);
-            --card-bg: #1a231a;
+            /* Primary Colors - Emerald/Teal Theme (njelloj si index) */
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --primary-light: rgba(16, 185, 129, 0.1);
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            
+            /* Background Colors */
+            --bg-dark: #0a1628;
+            --bg-card: rgba(15, 30, 50, 0.8);
+            --bg-card-solid: #0f1e32;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --bg-input: rgba(255, 255, 255, 0.08);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            
+            /* Accent Colors */
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            
+            /* Borders & Shadows */
+            --border: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(16, 185, 129, 0.5);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 60px rgba(16, 185, 129, 0.2);
+            
+            /* Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
             color: var(--text-primary);
             min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
+        /* =====================================================
+           ANIMATED BACKGROUND (njelloj si index por me i lehte)
+           ===================================================== */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a1628 0%, #0f2744 50%, #0a1628 100%);
         }
 
-        /* Sidebar */
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            animation: bgPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Floating Orbs (me pak dhe me te buta) */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(16, 185, 129, 0.1);
+            top: -100px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(6, 182, 212, 0.08);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -8s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        /* =====================================================
+           SIDEBAR STYLES - Fillimi
+           ===================================================== */
         .sidebar {
-            width: 260px;
-            background: var(--bg-sidebar);
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            position: fixed;
-            height: 100vh;
             z-index: 100;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .sidebar-header {
-            padding: 24px;
+            padding: 1.5rem;
             border-bottom: 1px solid var(--border);
         }
 
-        .logo {
+        .sidebar-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.875rem;
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-            border-radius: 12px;
+        .sidebar-logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .logo-icon svg {
+        .sidebar-logo-icon svg {
             width: 24px;
             height: 24px;
             fill: white;
         }
 
-        .logo-text {
-            font-size: 22px;
+        .sidebar-logo h2 {
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
+        /* Sidebar Navigation */
         .sidebar-nav {
             flex: 1;
-            padding: 16px 12px;
+            padding: 1rem 0.75rem;
             overflow-y: auto;
         }
 
         .nav-section {
-            margin-bottom: 24px;
+            margin-bottom: 1.5rem;
         }
 
         .nav-section-title {
-            font-size: 11px;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             color: var(--text-muted);
-            padding: 0 12px;
-            margin-bottom: 8px;
+            padding: 0 1rem;
+            margin-bottom: 0.75rem;
         }
 
-        .nav-btn {
-            width: 100%;
+        .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border: none;
-            background: transparent;
-            border-radius: 10px;
-            cursor: pointer;
+            gap: 0.875rem;
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
             color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
+            cursor: pointer;
             transition: all 0.2s ease;
-            text-align: left;
+            margin-bottom: 0.25rem;
         }
 
-        .nav-btn:hover {
-            background: var(--accent-light);
-            color: var(--accent);
+        .nav-item:hover {
+            background: var(--bg-glass);
+            color: var(--text-primary);
         }
 
-        .nav-btn.active {
-            background: var(--accent-light);
-            color: var(--accent);
+        .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
         }
 
-        .nav-btn svg {
+        .nav-item svg {
             width: 20px;
             height: 20px;
             flex-shrink: 0;
         }
 
-        .sidebar-footer {
-            padding: 16px;
+        .nav-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Sidebar User */
+        .sidebar-user {
+            padding: 1rem 0.75rem;
             border-top: 1px solid var(--border);
         }
 
         .user-card {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            margin-bottom: 12px;
+            gap: 0.875rem;
+            padding: 1rem;
+            background: var(--bg-glass);
+            border-radius: var(--radius-md);
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            object-fit: cover;
-            background: var(--accent-light);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-md);
         }
 
         .user-info {
@@ -192,7 +290,7 @@
         }
 
         .user-name {
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -201,928 +299,741 @@
         }
 
         .user-email {
-            font-size: 12px;
+            font-size: 0.75rem;
             color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            background: var(--bg-primary);
-            border-radius: 10px;
-        }
-
-        .theme-toggle-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .theme-toggle-label svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            background: var(--border);
-            border-radius: 12px;
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .toggle-switch.active {
-            background: var(--accent);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            color: white;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
         }
 
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 18px;
-            height: 18px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
         }
 
-        .toggle-switch.active::after {
-            transform: translateX(20px);
+        .btn-secondary {
+            background: var(--bg-glass);
+            border: 1.5px solid var(--border);
+            color: var(--text-primary);
         }
 
-        /* Main Content */
-        .main-wrapper {
-            flex: 1;
-            margin-left: 260px;
-            display: flex;
-            flex-direction: column;
-            transition: margin-left 0.3s ease;
+        .btn-secondary:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        /* =====================================================
+           SIDEBAR STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           MAIN CONTENT STYLES - Fillimi
+           ===================================================== */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
         }
 
-        /* Header */
-        .header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 32px;
+        /* Dashboard Header */
+        .dashboard-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            margin-bottom: 2rem;
         }
 
-        .header-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .header-date {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .header-greeting {
-            font-size: 24px;
+        .header-left h1 {
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .header-left p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
         }
 
-        .quick-stat {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            background: var(--bg-primary);
-            border-radius: 10px;
-        }
-
-        .quick-stat-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .quick-stat-icon.calories {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-
-        .quick-stat-icon.steps {
-            background: #dbeafe;
-            color: #3b82f6;
-        }
-
-        .quick-stat-icon svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .quick-stat-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .quick-stat-value {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .quick-stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .menu-toggle {
+        .mobile-menu-btn {
             display: none;
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: var(--bg-primary);
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
             cursor: pointer;
             align-items: center;
             justify-content: center;
         }
 
-        .menu-toggle svg {
+        .mobile-menu-btn svg {
             width: 24px;
             height: 24px;
             color: var(--text-primary);
         }
 
-        /* Content Area */
-        .content {
-            flex: 1;
-            padding: 32px;
-        }
-
-        .section {
+        /* Dashboard Sections */
+        .dashboard-section {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeSlide 0.4s ease;
         }
 
-        .section.active {
+        .dashboard-section.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .section-header {
-            margin-bottom: 24px;
+        /* Stats Cards Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .section-title {
-            font-size: 20px;
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--card-accent, var(--primary));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--icon-bg, var(--primary-light));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--icon-color, var(--primary));
+        }
+
+        .stat-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.625rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .stat-badge.good {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--primary);
+        }
+
+        .stat-badge.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .stat-badge.danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        .stat-value {
+            font-size: 2rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 0.25rem;
         }
 
-        .section-subtitle {
-            font-size: 14px;
+        .stat-label {
+            font-size: 0.875rem;
             color: var(--text-muted);
         }
 
-        /* Cards Grid */
-        .cards-grid {
+        /* Card Variants */
+        .stat-card.blue { --card-accent: var(--accent-blue); --icon-bg: rgba(59, 130, 246, 0.15); --icon-color: var(--accent-blue); }
+        .stat-card.cyan { --card-accent: var(--accent-cyan); --icon-bg: rgba(6, 182, 212, 0.15); --icon-color: var(--accent-cyan); }
+        .stat-card.purple { --card-accent: var(--accent-purple); --icon-bg: rgba(139, 92, 246, 0.15); --icon-color: var(--accent-purple); }
+        .stat-card.orange { --card-accent: var(--accent-orange); --icon-bg: rgba(245, 158, 11, 0.15); --icon-color: var(--accent-orange); }
+
+        /* Large Cards */
+        .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 24px;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--shadow);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
         }
 
         .card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 1.5rem;
         }
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card-icon.green {
-            background: var(--accent-light);
-            color: var(--accent);
-        }
-
-        .card-icon.blue {
-            background: #dbeafe;
-            color: #3b82f6;
-        }
-
-        .card-icon.orange {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-
-        .card-icon.red {
-            background: #fee2e2;
-            color: #ef4444;
-        }
-
-        .card-icon.purple {
-            background: #f3e8ff;
-            color: #a855f7;
-        }
-
-        .card-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .card-badge {
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        .card-badge.up {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .card-badge.down {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .card-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .card-label {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .card-progress {
-            margin-top: 16px;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--bg-primary);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .progress-fill.green { background: var(--accent); }
-        .progress-fill.blue { background: #3b82f6; }
-        .progress-fill.orange { background: #f59e0b; }
-
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* Chart Card */
-        .chart-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--border);
-        }
-
-        .chart-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .chart-title {
-            font-size: 18px;
+        .card-title {
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        .chart-tabs {
-            display: flex;
-            gap: 8px;
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
-        .chart-tab {
-            padding: 6px 14px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
+        .data-item {
+            padding: 1rem;
+            background: var(--bg-glass);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .data-item-label {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
         }
 
-        .chart-tab:hover {
-            background: var(--bg-primary);
+        .data-item-value {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .chart-tab.active {
-            background: var(--accent);
-            color: white;
+        /* Health Status Card */
+        .health-status {
+            text-align: center;
+            padding: 2rem;
         }
 
-        .chart-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            height: 200px;
-            padding: 0 10px;
-        }
-
-        .chart-bar-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .chart-bar {
-            width: 100%;
-            max-width: 40px;
-            background: var(--accent-light);
-            border-radius: 6px 6px 0 0;
-            transition: height 0.5s ease;
+        .health-meter {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1.5rem;
             position: relative;
         }
 
-        .chart-bar::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--accent);
-            border-radius: 6px 6px 0 0;
-            transition: height 0.5s ease;
+        .health-meter svg {
+            transform: rotate(-90deg);
         }
 
-        .chart-label {
-            font-size: 12px;
+        .health-meter circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .health-meter .bg {
+            stroke: var(--bg-glass);
+        }
+
+        .health-meter .progress {
+            stroke: var(--primary);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease, stroke 0.5s ease;
+        }
+
+        .health-meter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .health-meter-value .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .health-meter-value .label {
+            font-size: 0.875rem;
             color: var(--text-muted);
         }
 
-        /* Workout List */
-        .workout-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .health-status-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
-        .workout-item {
+        .health-status-desc {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        /* =====================================================
+           MAIN CONTENT STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           NUTRITION SECTION STYLES - Fillimi
+           ===================================================== */
+        .daily-calories {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 16px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
         }
 
-        .workout-item:hover {
-            border-color: var(--accent);
-        }
-
-        .workout-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+        .daily-calories-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--accent-light);
-            color: var(--accent);
         }
 
-        .workout-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .workout-info {
-            flex: 1;
-        }
-
-        .workout-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .workout-meta {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .workout-stats {
-            display: flex;
-            gap: 20px;
-            text-align: right;
-        }
-
-        .workout-stat-value {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .workout-stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .workout-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .workout-action-btn {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
-        }
-
-        .workout-action-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .workout-action-btn.delete:hover {
-            border-color: #ef4444;
-            color: #ef4444;
-            background: #fee2e2;
-        }
-
-        .add-workout-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: var(--accent);
+        .daily-calories-icon svg {
+            width: 26px;
+            height: 26px;
             color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
+        }
+
+        .daily-calories-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .daily-calories-info p {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .calories-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .calories-progress-bar {
+            height: 10px;
+            background: var(--bg-glass);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .calories-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .calories-progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Food Categories */
+        .food-categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .food-category {
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .food-category:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .food-category.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .food-category-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .food-category-name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Food List */
+        .food-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .food-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
             transition: all 0.2s ease;
-            margin-bottom: 20px;
         }
 
-        .add-workout-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
+        .food-item:hover {
+            border-color: var(--border-hover);
         }
 
-        .add-workout-btn svg {
+        .food-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .food-item-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--bg-glass);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .food-item-name {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.125rem;
+        }
+
+        .food-item-details {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .food-item-calories {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+        }
+
+        .food-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .food-item-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--text-muted);
+        }
+
+        .food-item-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .food-item-btn.delete:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .food-item-btn svg {
             width: 18px;
             height: 18px;
         }
 
-        /* Profile Section */
+        /* Add Food Button */
+        .add-food-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem;
+            background: var(--bg-glass);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .add-food-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .add-food-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        /* =====================================================
+           NUTRITION SECTION STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           PROFILE SECTION STYLES - Fillimi
+           ===================================================== */
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 24px;
-            padding: 32px;
-            background: var(--card-bg);
-            border-radius: 16px;
+            gap: 2rem;
+            padding: 2rem;
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
         }
 
         .profile-avatar-large {
-            width: 100px;
-            height: 100px;
-            border-radius: 20px;
-            object-fit: cover;
-            background: var(--accent-light);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+            border-radius: var(--radius-xl);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
+            font-size: 3rem;
             font-weight: 700;
-            color: var(--accent);
-        }
-
-        .profile-info h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .profile-info p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 24px;
-        }
-
-        .profile-stat {
-            text-align: center;
-        }
-
-        .profile-stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .profile-stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* Form Styles */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .form-input, .form-select {
-            padding: 12px 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: border-color 0.2s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary {
-            background: var(--accent);
             color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--border);
-        }
-
-        /* Nutrition Section */
-        .nutrition-controls {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-
-        .nutrition-controls-header {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
-        .controls-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .control-group label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-
-        .control-group input {
-            width: 100px;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .control-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .meals-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid var(--border);
-            margin-top: 24px;
-        }
-
-        .meals-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .meals-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .meals-config {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .meals-config label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .meals-config input {
-            width: 80px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-
-        .meals-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .meal-item {
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            padding: 16px;
-        }
-
-        .meal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .meal-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .meal-calories {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .meal-add-row {
-            display: grid;
-            grid-template-columns: minmax(180px, 2fr) 90px 110px;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .meal-add-row .form-input,
-        .meal-add-row .form-select {
-            padding: 8px 10px;
-            font-size: 13px;
-            border-radius: 8px;
-        }
-
-        .meal-add-row .btn {
-            padding: 8px 12px;
-            font-size: 13px;
-        }
-
-        .food-results {
-            margin-top: 6px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-primary);
-            max-height: 180px;
-            overflow-y: auto;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .food-result-item {
-            padding: 8px 10px;
-            font-size: 13px;
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .food-result-item span {
-            color: var(--text-secondary);
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .food-result-item strong {
-            color: var(--text-primary);
-        }
-
-        .food-result-item:hover {
-            background: var(--accent-light);
-        }
-
-        .meal-foods-list {
-            border-top: 1px solid var(--border);
-            padding-top: 10px;
-        }
-
-        .meal-food-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 8px;
-            align-items: center;
-            font-size: 13px;
-            padding: 4px 0;
-            color: var(--text-secondary);
-        }
-
-        .meal-food-row strong {
-            color: var(--text-primary);
-        }
-
-        .meal-food-row button {
-            padding: 4px 8px;
-            font-size: 12px;
-            border-radius: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .meal-add-row {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: auto auto auto;
-            }
-        }
-
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 0.75rem;
+            text-align: center;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.show {
-            display: flex;
+        .profile-avatar-large:hover .profile-avatar-edit {
             opacity: 1;
         }
 
-        .modal {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 28px;
-            width: 90%;
-            max-width: 420px;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
+        .profile-info h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
         }
 
-        .modal-overlay.show .modal {
-            transform: scale(1);
+        .profile-info .email {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .profile-badge {
+            padding: 0.375rem 0.875rem;
+            background: var(--primary-light);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Profile Form */
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .profile-form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .profile-form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .profile-form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .profile-form-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        /* =====================================================
+           PROFILE SECTION STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           MODAL STYLES - Fillimi
+           ===================================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: 1.5rem;
         }
 
         .modal-title {
-            font-size: 18px;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--text-primary);
         }
@@ -1130,19 +1041,20 @@
         .modal-close {
             width: 36px;
             height: 36px;
-            border: none;
-            background: var(--bg-primary);
-            border-radius: 10px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             transition: all 0.2s ease;
         }
 
         .modal-close:hover {
-            background: var(--border);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
 
         .modal-close svg {
@@ -1150,30 +1062,75 @@
             height: 18px;
         }
 
-        .modal-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
         .modal-actions {
             display: flex;
-            gap: 12px;
-            margin-top: 8px;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .modal-actions .btn {
             flex: 1;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .quick-stat {
-                display: none;
+        /* Form inputs for modals */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        /* =====================================================
+           MODAL STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           RESPONSIVE STYLES - Fillimi
+           ===================================================== */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-categories {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .sidebar {
                 transform: translateX(-100%);
             }
@@ -1182,24 +1139,12 @@
                 transform: translateX(0);
             }
 
-            .main-wrapper {
+            .main-content {
                 margin-left: 0;
             }
 
-            .menu-toggle {
+            .mobile-menu-btn {
                 display: flex;
-            }
-
-            .header {
-                padding: 16px 20px;
-            }
-
-            .header-greeting {
-                font-size: 20px;
-            }
-
-            .content {
-                padding: 20px;
             }
 
             .profile-header {
@@ -1207,1265 +1152,1124 @@
                 text-align: center;
             }
 
-            .profile-stats {
+            .profile-badges {
                 justify-content: center;
             }
 
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 99;
-            }
-
-            .overlay.show {
-                display: block;
+            .profile-form-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Utility */
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* =====================================================
+           RESPONSIVE STYLES - Fundi
+           ===================================================== */
+
+        /* =====================================================
+           UTILITY STYLES
+           ===================================================== */
         .hidden {
             display: none !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            z-index: 2000;
+            animation: toastSlide 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toast.success {
+            border-color: var(--primary);
+        }
+
+        .toast.success::before {
+            content: '✓';
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        @keyframes toastSlide {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="overlay" id="overlay"></div>
-    
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/>
-                        </svg>
-                    </div>
-                    <span class="logo-text">FitLife</span>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">Main</div>
-                    <button class="nav-btn active" data-section="dashboard">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7" rx="1"/>
-                            <rect x="14" y="3" width="7" height="7" rx="1"/>
-                            <rect x="3" y="14" width="7" height="7" rx="1"/>
-                            <rect x="14" y="14" width="7" height="7" rx="1"/>
-                        </svg>
-                        Dashboard
-                    </button>
-                    <button class="nav-btn" data-section="profile">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="8" r="4"/>
-                            <path d="M20 21a8 8 0 1 0-16 0"/>
-                        </svg>
-                        Profile
-                    </button>
-                    <button class="nav-btn" data-section="nutrition">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
-                            <path d="M8.5 8.5v.01"/>
-                            <path d="M16 15.5v.01"/>
-                            <path d="M12 12v.01"/>
-                            <path d="M11 17v.01"/>
-                            <path d="M7 14v.01"/>
-                        </svg>
-                        Nutrition
-                    </button>
-                    <button class="nav-btn" data-section="workouts">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6.5 6.5h11"/>
-                            <path d="M6.5 17.5h11"/>
-                            <path d="M4 10V6.5a2 2 0 0 1 2-2h1"/>
-                            <path d="M4 14v3.5a2 2 0 0 0 2 2h1"/>
-                            <path d="M20 10V6.5a2 2 0 0 0-2-2h-1"/>
-                            <path d="M20 14v3.5a2 2 0 0 1-2 2h-1"/>
-                            <path d="M12 6.5v11"/>
-                        </svg>
-                        Workouts
-                    </button>
-                    <button class="nav-btn" data-section="progress">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 3v18h18"/>
-                            <path d="M18 17V9"/>
-                            <path d="M13 17V5"/>
-                            <path d="M8 17v-3"/>
-                        </svg>
-                        Progress
-                    </button>
-                </div>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="user-card">
-                    <div class="user-avatar" id="sidebarAvatar">U</div>
-                    <div class="user-info">
-                        <div class="user-name" id="sidebarUserName">User</div>
-                        <div class="user-email" id="sidebarUserEmail">user@email.com</div>
-                    </div>
-                </div>
-                <div class="theme-toggle">
-                    <div class="theme-toggle-label">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-                        </svg>
-                        Night Mode
-                    </div>
-                    <div class="toggle-switch" id="themeToggle"></div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <div class="main-wrapper">
-            <header class="header">
-                <div class="header-left">
-                    <div class="header-date" id="currentDate"></div>
-                    <div class="header-greeting" id="greeting">Good Morning</div>
-                </div>
-                <div class="header-right">
-                    <div class="quick-stat">
-                        <div class="quick-stat-icon calories">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 12c-2-2.67-4-4-4-5.5a4 4 0 0 1 8 0c0 1.5-2 2.83-4 5.5"/>
-                                <path d="M12 21c-4 0-6-2-6-5 0-4 4-6.5 6-10 2 3.5 6 6 6 10 0 3-2 5-6 5"/>
-                            </svg>
-                        </div>
-                        <div class="quick-stat-info">
-                            <div class="quick-stat-value" id="headerCalories">0</div>
-                            <div class="quick-stat-label">Calories</div>
-                        </div>
-                    </div>
-                    <button class="menu-toggle" id="menuToggle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="12" x2="21" y2="12"/>
-                            <line x1="3" y1="6" x2="21" y2="6"/>
-                            <line x1="3" y1="18" x2="21" y2="18"/>
-                        </svg>
-                    </button>
-                </div>
-            </header>
-
-            <main class="content">
-                <!-- Dashboard Section -->
-                <section class="section active" id="dashboard">
-                    <div class="section-header">
-                        <h1 class="section-title">Dashboard</h1>
-                        <p class="section-subtitle">Track your daily fitness progress</p>
-                    </div>
-
-                    <div class="cards-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon green">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 12c-2-2.67-4-4-4-5.5a4 4 0 0 1 8 0c0 1.5-2 2.83-4 5.5"/>
-                                        <path d="M12 21c-4 0-6-2-6-5 0-4 4-6.5 6-10 2 3.5 6 6 6 10 0 3-2 5-6 5"/>
-                                    </svg>
-                                </div>
-                                <span class="card-badge up" id="caloriesBadge">+0%</span>
-                            </div>
-                            <div class="card-value" id="dashboardCalories">0</div>
-                            <div class="card-label">Calories Consumed</div>
-                            <div class="card-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill green" id="caloriesProgress" style="width: 0%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span id="caloriesPercent">0% of goal</span>
-                                    <span id="caloriesGoal">2000 cal</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon blue">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M8 2v4"/>
-                                        <path d="M16 2v4"/>
-                                        <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                        <path d="M3 10h18"/>
-                                    </svg>
-                                </div>
-                                <span class="card-badge up" id="mealsBadge">0</span>
-                            </div>
-                            <div class="card-value" id="dashboardMeals">0</div>
-                            <div class="card-label">Meals Today</div>
-                            <div class="card-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill blue" id="mealsProgress" style="width: 0%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span id="mealsCount">0 meals</span>
-                                    <span id="mealsGoalDisplay">3 / day</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon orange">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polyline points="12 6 12 12 16 14"/>
-                                    </svg>
-                                </div>
-                                <span class="card-badge up" id="activeBadge">+0%</span>
-                            </div>
-                            <div class="card-value" id="dashboardActiveTime">0 min</div>
-                            <div class="card-label">Active Time</div>
-                            <div class="card-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill orange" id="activeProgress" style="width: 0%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span id="activePercent">0% of goal</span>
-                                    <span>60 min</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon purple">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5Z"/>
-                                        <path d="m2 17 10 5 10-5"/>
-                                        <path d="m2 12 10 5 10-5"/>
-                                    </svg>
-                                </div>
-                                <span class="card-badge down" id="workoutsBadge">0</span>
-                            </div>
-                            <div class="card-value" id="dashboardWorkouts">0</div>
-                            <div class="card-label">Total Workouts</div>
-                            <div class="card-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill green" id="workoutsProgress" style="width: 0%"></div>
-                                </div>
-                                <div class="progress-text">
-                                    <span id="workoutsCount">0 workouts</span>
-                                    <span id="workoutsGoalDisplay">7 / week</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3 class="chart-title">Weekly Activity</h3>
-                            <div class="chart-tabs">
-                                <button class="chart-tab active">Week</button>
-                                <button class="chart-tab">Month</button>
-                                <button class="chart-tab">Year</button>
-                            </div>
-                        </div>
-                        <div class="chart-container" id="activityChart"></div>
-                    </div>
-                </section>
-
-                <!-- Profile Section -->
-                <section class="section" id="profile">
-                    <div class="section-header">
-                        <h1 class="section-title">Profile</h1>
-                        <p class="section-subtitle">Manage your personal information</p>
-                    </div>
-
-                    <div class="profile-header">
-                        <div class="profile-avatar-large" id="profileAvatar">U</div>
-                        <div class="profile-info">
-                            <h2 id="profileName">User</h2>
-                            <p>Fitness enthusiast since 2024</p>
-                            <div class="profile-stats">
-                                <div class="profile-stat">
-                                    <div class="profile-stat-value" id="totalWorkouts">0</div>
-                                    <div class="profile-stat-label">Workouts</div>
-                                </div>
-                                <div class="profile-stat">
-                                    <div class="profile-stat-value" id="dayStreak">0</div>
-                                    <div class="profile-stat-label">Day Streak</div>
-                                </div>
-                                <div class="profile-stat">
-                                    <div class="profile-stat-value" id="weightLost">0kg</div>
-                                    <div class="profile-stat-label">Progress</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px; font-size: 18px; color: var(--text-primary);">Personal Information</h3>
-                        <form id="profileForm">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" class="form-input" id="profileNameInput" placeholder="Enter your name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-input" id="profileEmailInput" placeholder="your@email.com">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Age</label>
-                                    <input type="number" class="form-input" id="profileAgeInput" placeholder="25" min="13" max="100">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Weight (kg)</label>
-                                    <input type="number" class="form-input" id="profileWeightInput" placeholder="70" min="30" max="300">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Height (cm)</label>
-                                    <input type="number" class="form-input" id="profileHeightInput" placeholder="175" min="100" max="250">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Activity Level</label>
-                                    <select class="form-select" id="profileActivityInput">
-                                        <option value="sedentary">Sedentary</option>
-                                        <option value="light">Light Activity</option>
-                                        <option value="moderate">Moderate Activity</option>
-                                        <option value="very">Very Active</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="margin-top: 24px; display: flex; gap: 12px;">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                <button type="button" class="btn btn-secondary" onclick="loadProfileData()">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-
-                <!-- Nutrition Section -->
-                <section class="section" id="nutrition">
-                    <div class="section-header">
-                        <h1 class="section-title">Nutrition</h1>
-                        <p class="section-subtitle">Track your daily calorie intake</p>
-                    </div>
-
-                    <!-- Nutrition Controls -->
-                    <div class="nutrition-controls">
-                        <div class="nutrition-controls-header">Daily Goals</div>
-                        <div class="controls-row">
-                            <div class="control-group">
-                                <label for="calorieGoalInput">Calorie Goal:</label>
-                                <input type="number" id="calorieGoalInput" value="2000" min="500" max="10000" step="100">
-                                <span style="color: var(--text-muted); font-size: 14px;">cal</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Calorie Summary -->
-                    <div class="card">
-                        <h3 style="margin-bottom: 16px; font-size: 18px; color: var(--text-primary);">Calorie Summary</h3>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <div>
-                                <div style="font-size: 32px; font-weight: 700; color: var(--accent);"><span id="caloriesConsumed">0</span> cal</div>
-                                <div style="font-size: 14px; color: var(--text-muted);">of <span id="calorieGoalText">2000</span> cal goal</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 20px; font-weight: 600; color: var(--text-secondary);"><span id="caloriesRemaining">2000</span> cal</div>
-                                <div style="font-size: 14px; color: var(--text-muted);">remaining</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; color: var(--text-muted);">
-                            <div><strong style="color: var(--text-primary);">From meals:</strong> <span id="caloriesFromMeals">0</span> cal</div>
-                            <div><strong style="color: var(--text-primary);">Burned (workouts):</strong> <span id="caloriesBurnedWorkouts">0</span> cal</div>
-                        </div>
-                        <div class="progress-bar" style="height: 12px;">
-                            <div class="progress-fill green" id="nutritionProgress" style="width: 0%"></div>
-                        </div>
-                        <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
-                            Calories are automatically calculated from the foods you add to your meals below.
-                        </p>
-                    </div>
-
-                    <!-- Meals & Foods -->
-                    <div class="meals-card">
-                        <div class="meals-header">
-                            <div class="meals-title">Meals & Foods</div>
-                            <div class="meals-config">
-                                <label for="mealsPerDayInput">Meals per day:</label>
-                                <input type="number" id="mealsPerDayInput" min="1" max="10" value="3">
-                                <button class="btn btn-secondary" type="button" onclick="applyMealsPerDay()">Apply</button>
-                            </div>
-                        </div>
-                        <div class="meals-list" id="mealsContainer"></div>
-                    </div>
-                </section>
-
-                <!-- Workouts Section -->
-                <section class="section" id="workouts">
-                    <div class="section-header">
-                        <h1 class="section-title">Workouts</h1>
-                        <p class="section-subtitle">Your exercise routines and history</p>
-                    </div>
-
-                    <button class="add-workout-btn" onclick="openWorkoutModal()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14"/>
-                            <path d="M5 12h14"/>
-                        </svg>
-                        Add Workout
-                    </button>
-
-                    <div class="cards-grid" style="margin-bottom: 24px;">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon green">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M6.5 6.5h11"/>
-                                        <path d="M6.5 17.5h11"/>
-                                        <path d="M12 6.5v11"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="weekWorkouts">0</div>
-                            <div class="card-label">Workouts This Week</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon blue">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polyline points="12 6 12 12 16 14"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="totalDuration">0h</div>
-                            <div class="card-label">Total Duration</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon orange">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 12c-2-2.67-4-4-4-5.5a4 4 0 0 1 8 0c0 1.5-2 2.83-4 5.5"/>
-                                        <path d="M12 21c-4 0-6-2-6-5 0-4 4-6.5 6-10 2 3.5 6 6 6 10 0 3-2 5-6 5"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="totalCaloriesBurned">0</div>
-                            <div class="card-label">Calories Burned</div>
-                        </div>
-                    </div>
-
-                    <h3 style="margin-bottom: 16px; font-size: 18px; color: var(--text-primary);">Recent Workouts</h3>
-                    <div class="workout-list" id="workoutList"></div>
-                </section>
-
-                <!-- Progress Section -->
-                <section class="section" id="progress">
-                    <div class="section-header">
-                        <h1 class="section-title">Progress</h1>
-                        <p class="section-subtitle">Track your fitness journey over time</p>
-                    </div>
-
-                    <div class="cards-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon green">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 3v18h18"/>
-                                        <path d="m7 16 4-8 4 4 6-8"/>
-                                    </svg>
-                                </div>
-                                <span class="card-badge up" id="weightChangeBadge">0kg</span>
-                            </div>
-                            <div class="card-value" id="currentWeight">0 kg</div>
-                            <div class="card-label">Current Weight</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon blue">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 22V2"/>
-                                        <path d="m5 12 7-7 7 7"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="goalWeight">0 kg</div>
-                            <div class="card-label">Goal Weight</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon orange">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M8 2v4"/>
-                                        <path d="M16 2v4"/>
-                                        <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                        <path d="M3 10h18"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="progressStreak">0</div>
-                            <div class="card-label">Day Streak</div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-icon purple">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5Z"/>
-                                        <path d="m2 17 10 5 10-5"/>
-                                        <path d="m2 12 10 5 10-5"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="card-value" id="progressTotalWorkouts">0</div>
-                            <div class="card-label">Total Workouts</div>
-                        </div>
-                    </div>
-
-                    <div class="chart-card" style="margin-top: 24px;">
-                        <div class="chart-header">
-                            <h3 class="chart-title">Weight Progress</h3>
-                            <div class="chart-tabs">
-                                <button class="chart-tab">1M</button>
-                                <button class="chart-tab active">3M</button>
-                                <button class="chart-tab">6M</button>
-                            </div>
-                        </div>
-                        <div class="chart-container" id="weightChart"></div>
-                    </div>
-                </section>
-            </main>
-        </div>
+    <!-- =====================================================
+         ANIMATED BACKGROUND - Fillimi
+         ===================================================== -->
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
     </div>
+    <!-- =====================================================
+         ANIMATED BACKGROUND - Fundi
+         ===================================================== -->
 
-    <!-- Add Workout Modal -->
-    <div class="modal-overlay" id="workoutModal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="workoutModalTitle">Add Workout</div>
-                <button class="modal-close" onclick="closeWorkoutModal()">
+    <!-- =====================================================
+         SIDEBAR - Fillimi
+         ===================================================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h2>BitTracker</h2>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Kryesore</div>
+                <div class="nav-item active" onclick="switchSection('overview')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18"/>
-                        <path d="M6 6l12 12"/>
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span>Paneli</span>
+                </div>
+                <div class="nav-item" onclick="switchSection('nutrition')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                        <line x1="6" y1="1" x2="6" y2="4"/>
+                        <line x1="10" y1="1" x2="10" y2="4"/>
+                        <line x1="14" y1="1" x2="14" y2="4"/>
+                    </svg>
+                    <span>Ushqimi</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Cilesimet</div>
+                <div class="nav-item" onclick="switchSection('profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Profili</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-card">
+                <div class="user-avatar" id="sidebarAvatar" onclick="openAvatarModal()">
+                    <span id="sidebarAvatarText">U</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="sidebarUserName">Perdoruesi</div>
+                    <div class="user-email" id="sidebarUserEmail">email@example.com</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="handleLogout()" style="margin-top: 1rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Dil
+            </button>
+        </div>
+    </aside>
+    <!-- =====================================================
+         SIDEBAR - Fundi
+         ===================================================== -->
+
+    <!-- =====================================================
+         MAIN CONTENT - Fillimi
+         ===================================================== -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 id="dashboardGreeting">Mire se erdhe!</h1>
+                <p id="dashboardDate"></p>
+            </div>
+            <div class="header-right">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
                     </svg>
                 </button>
             </div>
-            <form class="modal-form" id="workoutForm" onsubmit="saveWorkout(event)">
-                <input type="hidden" id="editWorkoutIndex" value="-1">
-                <div class="form-group">
-                    <label class="form-label">Workout Name</label>
-                    <input type="text" class="form-input" id="workoutName" placeholder="e.g., Morning Run, Gym Session" required>
+        </header>
+
+        <!-- =====================================================
+             OVERVIEW SECTION - Fillimi
+             ===================================================== -->
+        <section class="dashboard-section active" id="overviewSection">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                        </div>
+                        <span class="stat-badge good" id="bmiBadge">Normal</span>
+                    </div>
+                    <div class="stat-value" id="statBMI">--</div>
+                    <div class="stat-label">BMI</div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Duration (minutes)</label>
-                    <input type="number" class="form-input" id="workoutDuration" placeholder="Enter duration" min="1" required>
+
+                <div class="stat-card blue">
+                    <div class="stat-card-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statHeight">-- cm</div>
+                    <div class="stat-label">Gjatesia</div>
                 </div>
+
+                <div class="stat-card cyan">
+                    <div class="stat-card-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statWeight">-- kg</div>
+                    <div class="stat-label">Pesha</div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-card-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statAge">-- vjec</div>
+                    <div class="stat-label">Mosha</div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Te dhenat e tua</h3>
+                    </div>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-item-label">Email</div>
+                            <div class="data-item-value" id="dataEmail">--</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-item-label">Gjinia</div>
+                            <div class="data-item-value" id="dataGender">--</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-item-label">Gjatesia</div>
+                            <div class="data-item-value" id="dataHeight">--</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-item-label">Pesha</div>
+                            <div class="data-item-value" id="dataWeight">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="health-status">
+                        <div class="health-meter">
+                            <svg width="160" height="160">
+                                <circle class="bg" cx="80" cy="80" r="65"/>
+                                <circle class="progress" id="healthProgress" cx="80" cy="80" r="65" 
+                                        stroke-dasharray="408.4" stroke-dashoffset="408.4"/>
+                            </svg>
+                            <div class="health-meter-value">
+                                <div class="value" id="healthBMI">--</div>
+                                <div class="label">BMI</div>
+                            </div>
+                        </div>
+                        <div class="health-status-text" id="healthStatusText">Duke llogaritur...</div>
+                        <div class="health-status-desc" id="healthStatusDesc">Statusi i shendetit bazuar ne BMI</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- =====================================================
+             OVERVIEW SECTION - Fundi
+             ===================================================== -->
+
+        <!-- =====================================================
+             NUTRITION SECTION - Fillimi
+             ===================================================== -->
+        <section class="dashboard-section" id="nutritionSection">
+            <div class="daily-calories">
+                <div class="daily-calories-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20V10"/>
+                        <path d="M18 20V4"/>
+                        <path d="M6 20v-4"/>
+                    </svg>
+                </div>
+                <div class="daily-calories-info">
+                    <h3 id="totalCalories">0 kcal</h3>
+                    <p>Kalorite e sotme</p>
+                </div>
+            </div>
+
+            <div class="calories-progress">
+                <div class="calories-progress-bar">
+                    <div class="calories-progress-fill" id="caloriesProgressFill" style="width: 0%"></div>
+                </div>
+                <div class="calories-progress-text">
+                    <span id="caloriesConsumed">0 kcal konsumuar</span>
+                    <span id="caloriesGoal">Objektivi: 2000 kcal</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Kategorite e Ushqimit</h3>
+                </div>
+                <div class="food-categories">
+                    <div class="food-category active" onclick="filterFood('all')">
+                        <div class="food-category-icon">🍽️</div>
+                        <div class="food-category-name">Te gjitha</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('fruits')">
+                        <div class="food-category-icon">🍎</div>
+                        <div class="food-category-name">Frutat</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('vegetables')">
+                        <div class="food-category-icon">🥬</div>
+                        <div class="food-category-name">Perimet</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('proteins')">
+                        <div class="food-category-icon">🥩</div>
+                        <div class="food-category-name">Proteina</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('dairy')">
+                        <div class="food-category-icon">🧀</div>
+                        <div class="food-category-name">Bulmet</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('grains')">
+                        <div class="food-category-icon">🍞</div>
+                        <div class="food-category-name">Drithera</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('drinks')">
+                        <div class="food-category-icon">🥤</div>
+                        <div class="food-category-name">Pijet</div>
+                    </div>
+                    <div class="food-category" onclick="filterFood('desserts')">
+                        <div class="food-category-icon">🍰</div>
+                        <div class="food-category-name">Embelsira</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Ushqimet e Disponueshme</h3>
+                </div>
+                <div class="food-list" id="foodList"></div>
+                <div class="add-food-btn" onclick="openAddFoodModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Shto ushqim te ri
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Ushqimet e Shtuara Sot</h3>
+                </div>
+                <div class="food-list" id="addedFoodList">
+                    <p style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        Nuk ke shtuar asnje ushqim sot. Kliko butonin + per te shtuar.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- =====================================================
+             NUTRITION SECTION - Fundi
+             ===================================================== -->
+
+        <!-- =====================================================
+             PROFILE SECTION - Fillimi
+             ===================================================== -->
+        <section class="dashboard-section" id="profileSection">
+            <div class="profile-header">
+                <div class="profile-avatar-large" id="profileAvatar" onclick="openAvatarModal()">
+                    <span id="profileAvatarText">U</span>
+                    <div class="profile-avatar-edit">Ndrysho</div>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profileName">Perdoruesi</h2>
+                    <p class="email" id="profileEmail">email@example.com</p>
+                    <div class="profile-badges">
+                        <span class="profile-badge" id="profileGenderBadge">Gjinia</span>
+                        <span class="profile-badge" id="profileAgeBadge">Mosha</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Cilesimet e Profilit</h3>
+                </div>
+                <form onsubmit="updateProfile(event)">
+                    <div class="profile-form-grid">
+                        <div class="profile-form-group">
+                            <label class="profile-form-label" for="profileEmailInput">Email</label>
+                            <input type="email" id="profileEmailInput" class="profile-form-input" disabled>
+                        </div>
+                        <div class="profile-form-group">
+                            <label class="profile-form-label" for="profileGenderInput">Gjinia</label>
+                            <input type="text" id="profileGenderInput" class="profile-form-input" disabled>
+                        </div>
+                        <div class="profile-form-group">
+                            <label class="profile-form-label" for="profileHeightInput">Gjatesia (cm)</label>
+                            <input type="number" id="profileHeightInput" class="profile-form-input" min="120" max="230">
+                        </div>
+                        <div class="profile-form-group">
+                            <label class="profile-form-label" for="profileWeightInput">Pesha (kg)</label>
+                            <input type="number" id="profileWeightInput" class="profile-form-input" min="30" max="250">
+                        </div>
+                        <div class="profile-form-group">
+                            <label class="profile-form-label" for="profileAgeInput">Mosha</label>
+                            <input type="number" id="profileAgeInput" class="profile-form-input" min="10" max="100">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem; max-width: 200px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        Ruaj Ndryshimet
+                    </button>
+                </form>
+            </div>
+        </section>
+        <!-- =====================================================
+             PROFILE SECTION - Fundi
+             ===================================================== -->
+    </main>
+    <!-- =====================================================
+         MAIN CONTENT - Fundi
+         ===================================================== -->
+
+    <!-- =====================================================
+         MODALS - Fillimi
+         ===================================================== -->
+    
+    <!-- Add Food Modal -->
+    <div class="modal-overlay" id="addFoodModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Shto Ushqim te Ri</h3>
+                <button class="modal-close" onclick="closeAddFoodModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="addCustomFood(event)">
                 <div class="form-group">
-                    <label class="form-label">Calories Burned</label>
-                    <input type="number" class="form-input" id="workoutCalories" placeholder="Enter calories burned" min="1" required>
+                    <label class="form-label" for="foodName">Emri i Ushqimit</label>
+                    <input type="text" id="foodName" class="form-input" placeholder="p.sh. Molle" required>
+                </div>
+                <div class="input-row">
+                    <div class="form-group">
+                        <label class="form-label" for="foodCalories">Kalorite</label>
+                        <input type="number" id="foodCalories" class="form-input" placeholder="100" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="foodCategory">Kategoria</label>
+                        <select id="foodCategory" class="form-input" required>
+                            <option value="fruits">Frutat</option>
+                            <option value="vegetables">Perimet</option>
+                            <option value="proteins">Proteina</option>
+                            <option value="dairy">Bulmet</option>
+                            <option value="grains">Drithera</option>
+                            <option value="drinks">Pijet</option>
+                            <option value="desserts">Embelsira</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeWorkoutModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="workoutSubmitBtn">Add Workout</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddFoodModal()">Anulo</button>
+                    <button type="submit" class="btn btn-primary">Shto</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Avatar Upload Modal -->
+    <div class="modal-overlay" id="avatarModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Ndrysho Foton e Profilit</h3>
+                <button class="modal-close" onclick="closeAvatarModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div style="text-align: center;">
+                <div class="profile-avatar-large" style="margin: 0 auto 1.5rem; width: 150px; height: 150px; cursor: default;">
+                    <span id="avatarPreviewText">U</span>
+                    <img id="avatarPreviewImg" style="display: none;" alt="Avatar Preview">
+                </div>
+                <input type="file" id="avatarInput" accept="image/*" onchange="previewAvatar(event)" style="display: none;">
+                <label for="avatarInput" class="btn btn-secondary" style="cursor: pointer; margin-bottom: 1rem; display: inline-flex;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Zgjidh Foto
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeAvatarModal()">Anulo</button>
+                <button type="button" class="btn btn-primary" onclick="saveAvatar()">Ruaj</button>
+            </div>
+        </div>
+    </div>
+    <!-- =====================================================
+         MODALS - Fundi
+         ===================================================== -->
+
+    <!-- =====================================================
+         JAVASCRIPT - Fillimi
+         ===================================================== -->
     <script>
-        // Initialize user data from localStorage or URL parameters
-        let userData = {
-            name: '',
-            email: '',
-            age: '',
-            height: '',
-            weight: '',
-            goal: '',
-            frequency: 3,
-            duration: 45,
-            activities: '',
-            calorieGoal: 2000,
-            caloriesConsumed: 0,
-            activeMinutes: 0,
-            workouts: [],
-            initialWeight: 0,
-            mealsPerDay: 3,
-            meals: [] // { name, foods: [{ name, quantity, unit, calories }] }
-        };
-
-        const FOOD_DB = [
-            { name: 'Apple', caloriesPer100g: 52 },
-            { name: 'Banana', caloriesPer100g: 96 },
-            { name: 'Chicken Breast (grilled)', caloriesPer100g: 165 },
-            { name: 'Rice (cooked)', caloriesPer100g: 130 },
-            { name: 'Egg (boiled)', caloriesPer100g: 155 },
-            { name: 'Oats', caloriesPer100g: 389 },
-            { name: 'Greek Yogurt', caloriesPer100g: 59 },
-            { name: 'Almonds', caloriesPer100g: 579 },
-            { name: 'Broccoli (boiled)', caloriesPer100g: 35 },
-            { name: 'Salmon (grilled)', caloriesPer100g: 208 }
-        ];
-
-        // Load data from URL parameters (from index.php)
-        function loadFromURLParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('name')) {
-                userData.name = urlParams.get('name') || 'User';
-                userData.email = urlParams.get('email') || '';
-                userData.age = parseInt(urlParams.get('age')) || 25;
-                userData.height = parseInt(urlParams.get('height')) || 175;
-                userData.weight = parseInt(urlParams.get('weight')) || 70;
-                userData.initialWeight = userData.weight;
-                userData.goal = urlParams.get('goal') || 'maintain';
-                userData.frequency = parseInt(urlParams.get('frequency')) || 3;
-                userData.duration = parseInt(urlParams.get('duration')) || 45;
-                userData.activities = urlParams.get('activities') || '';
-                
-                // Save to localStorage
-                saveUserData();
+        // =====================================================
+        // CHECK SESSION - Kontrollo nese perdoruesi eshte i loguar
+        // =====================================================
+        function checkSession() {
+            const userData = localStorage.getItem('bittracker_user');
+            if (!userData) {
+                // Redirect to login if not logged in
+                window.location.href = 'index.php';
+                return false;
             }
+            return true;
         }
 
-        // Load data from localStorage
-        function loadUserData() {
-            const saved = localStorage.getItem('fitLifeUserData');
-            if (saved) {
-                userData = { ...userData, ...JSON.parse(saved) };
+        // Initialize - Check session first
+        if (checkSession()) {
+            loadDashboardData();
+            updateDate();
+            loadFoods();
+            loadDailyFoods();
+        }
+
+        // =====================================================
+        // LOAD DASHBOARD DATA - Ngarko te dhenat e dashboard
+        // =====================================================
+        function loadDashboardData() {
+            const userData = JSON.parse(localStorage.getItem('bittracker_user'));
+            if (!userData) return;
+
+            // Calculate BMI
+            const bmi = (userData.weight / Math.pow(userData.height / 100, 2)).toFixed(1);
+
+            // Update stats
+            document.getElementById('statBMI').textContent = bmi;
+            document.getElementById('statHeight').textContent = userData.height + ' cm';
+            document.getElementById('statWeight').textContent = userData.weight + ' kg';
+            document.getElementById('statAge').textContent = userData.age + ' vjec';
+
+            // Update BMI badge
+            const bmiBadge = document.getElementById('bmiBadge');
+            if (bmi < 18.5) {
+                bmiBadge.textContent = 'Nen peshe';
+                bmiBadge.className = 'stat-badge warning';
+            } else if (bmi < 25) {
+                bmiBadge.textContent = 'Normal';
+                bmiBadge.className = 'stat-badge good';
+            } else if (bmi < 30) {
+                bmiBadge.textContent = 'Mbipeshe';
+                bmiBadge.className = 'stat-badge warning';
+            } else {
+                bmiBadge.textContent = 'Obezitet';
+                bmiBadge.className = 'stat-badge danger';
             }
-        }
 
-        // Save data to localStorage
-        function saveUserData() {
-            localStorage.setItem('fitLifeUserData', JSON.stringify(userData));
-        }
+            // Update data display
+            document.getElementById('dataEmail').textContent = userData.email;
+            document.getElementById('dataGender').textContent = userData.gender === 'mashkull' ? 'Mashkull' : 'Femer';
+            document.getElementById('dataHeight').textContent = userData.height + ' cm';
+            document.getElementById('dataWeight').textContent = userData.weight + ' kg';
 
-        // Initialize on page load
-        loadFromURLParams();
-        loadUserData();
+            // Update health meter
+            updateHealthMeter(bmi);
 
-        // Update UI with user data
-        function updateUI() {
-            // Update user info in sidebar and header
-            const initials = userData.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U';
-            document.getElementById('sidebarAvatar').textContent = initials;
-            document.getElementById('sidebarUserName').textContent = userData.name || 'User';
-            document.getElementById('sidebarUserEmail').textContent = userData.email || 'user@email.com';
-            document.getElementById('profileAvatar').textContent = initials;
-            document.getElementById('profileName').textContent = userData.name || 'User';
-            
+            // Update sidebar user
+            const initials = userData.email.charAt(0).toUpperCase();
+            document.getElementById('sidebarAvatarText').textContent = initials;
+            document.getElementById('sidebarUserName').textContent = userData.email.split('@')[0];
+            document.getElementById('sidebarUserEmail').textContent = userData.email;
+
+            // Update profile
+            document.getElementById('profileAvatarText').textContent = initials;
+            document.getElementById('profileName').textContent = userData.email.split('@')[0];
+            document.getElementById('profileEmail').textContent = userData.email;
+            document.getElementById('profileGenderBadge').textContent = userData.gender === 'mashkull' ? 'Mashkull' : 'Femer';
+            document.getElementById('profileAgeBadge').textContent = userData.age + ' vjec';
+
+            // Update profile form
+            document.getElementById('profileEmailInput').value = userData.email;
+            document.getElementById('profileGenderInput').value = userData.gender === 'mashkull' ? 'Mashkull' : 'Femer';
+            document.getElementById('profileHeightInput').value = userData.height;
+            document.getElementById('profileWeightInput').value = userData.weight;
+            document.getElementById('profileAgeInput').value = userData.age;
+
+            // Load avatar if exists
+            if (userData.avatar) {
+                loadAvatarImage(userData.avatar);
+            }
+
             // Update greeting
             const hour = new Date().getHours();
-            let greeting = 'Good Morning';
-            if (hour >= 12 && hour < 17) greeting = 'Good Afternoon';
-            if (hour >= 17) greeting = 'Good Evening';
-            document.getElementById('greeting').textContent = `${greeting}, ${userData.name.split(' ')[0] || 'User'}`;
-            
-            // Update dashboard stats
-            updateDashboardStats();
-            updateNutritionStats();
-            renderMealsUI();
-            updateWorkoutStats();
-            updateProgressStats();
-            
-            // Update profile form
-            loadProfileData();
+            let greeting = 'Mirembremba';
+            if (hour < 12) greeting = 'Miremengjes';
+            else if (hour < 18) greeting = 'Miredita';
+            document.getElementById('dashboardGreeting').textContent = greeting + ', ' + userData.email.split('@')[0] + '!';
         }
 
-        // Update dashboard statistics
-        function updateDashboardStats() {
-            const totalCaloriesConsumed = getTotalMealCalories();
-            const calorieGoal = userData.calorieGoal || 2000;
-            const caloriePercent = Math.min((totalCaloriesConsumed / calorieGoal) * 100, 100);
-            
-            const activeGoal = 60;
-            const activePercent = Math.min((userData.activeMinutes / activeGoal) * 100, 100);
-            
-            // Update header quick stats
-            document.getElementById('headerCalories').textContent = totalCaloriesConsumed.toLocaleString();
-            
-            // Update dashboard cards
-            document.getElementById('dashboardCalories').textContent = totalCaloriesConsumed.toLocaleString();
-            document.getElementById('caloriesProgress').style.width = caloriePercent + '%';
-            document.getElementById('caloriesPercent').textContent = Math.round(caloriePercent) + '% of goal';
-            document.getElementById('caloriesGoal').textContent = calorieGoal + ' cal';
-            document.getElementById('caloriesBadge').textContent = '+' + Math.round(caloriePercent) + '%';
-            
-            document.getElementById('dashboardActiveTime').textContent = userData.activeMinutes + ' min';
-            document.getElementById('activeProgress').style.width = activePercent + '%';
-            document.getElementById('activePercent').textContent = Math.round(activePercent) + '% of goal';
-            document.getElementById('activeBadge').textContent = '+' + Math.round(activePercent) + '%';
-
-            const workoutsCount = userData.workouts.length;
-            const weeklyWorkoutsGoal = 7;
-            const workoutsPercent = Math.min((workoutsCount / weeklyWorkoutsGoal) * 100, 100);
-
-            document.getElementById('dashboardWorkouts').textContent = workoutsCount.toLocaleString();
-            document.getElementById('workoutsProgress').style.width = workoutsPercent + '%';
-            document.getElementById('workoutsCount').textContent = workoutsCount + ' workouts';
-            document.getElementById('workoutsGoalDisplay').textContent = weeklyWorkoutsGoal + ' / week';
-            document.getElementById('workoutsBadge').textContent = workoutsCount.toLocaleString();
-
-            // Meals summary
-            const mealsCount = (userData.meals || []).filter(m => (m.foods || []).length > 0).length;
-            const mealsGoal = userData.mealsPerDay || 3;
-            const mealsPercent = Math.min((mealsCount / mealsGoal) * 100, 100);
-
-            document.getElementById('dashboardMeals').textContent = mealsCount.toString();
-            document.getElementById('mealsProgress').style.width = mealsPercent + '%';
-            document.getElementById('mealsCount').textContent = mealsCount + ' meals';
-            document.getElementById('mealsGoalDisplay').textContent = mealsGoal + ' / day';
-            document.getElementById('mealsBadge').textContent = mealsCount.toString();
-        }
-
-        // Compute total calories from all meals
-        function getTotalMealCalories() {
-            return (userData.meals || []).reduce((sum, meal) => {
-                const mealCals = (meal.foods || []).reduce((msum, f) => msum + (f.calories || 0), 0);
-                return sum + mealCals;
-            }, 0);
-        }
-
-        // Update nutrition statistics
-        function updateNutritionStats() {
-            const goal = userData.calorieGoal;
-            const consumedFromMeals = getTotalMealCalories();
-
-            // Keep caloriesConsumed in sync with meals so the graphic always reflects logged foods
-            userData.caloriesConsumed = consumedFromMeals;
-
-            const consumed = userData.caloriesConsumed;
-            const remaining = Math.max(goal - consumed, 0);
-            const percent = Math.min((consumed / goal) * 100, 100);
-            
-            document.getElementById('calorieGoalInput').value = goal;
-            document.getElementById('caloriesConsumed').textContent = consumed.toLocaleString();
-            document.getElementById('calorieGoalText').textContent = goal.toLocaleString();
-            document.getElementById('caloriesRemaining').textContent = remaining.toLocaleString();
-            document.getElementById('nutritionProgress').style.width = percent + '%';
-
-            // Calorie summary breakdown
-            document.getElementById('caloriesFromMeals').textContent = consumedFromMeals.toFixed(0);
-            const burnedFromWorkouts = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
-            document.getElementById('caloriesBurnedWorkouts').textContent = burnedFromWorkouts.toLocaleString();
-        }
-
-        // Meals & foods
-        function ensureMealsInitialized() {
-            if (!Array.isArray(userData.meals)) {
-                userData.meals = [];
+        function loadAvatarImage(src) {
+            // Sidebar avatar
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            const sidebarText = document.getElementById('sidebarAvatarText');
+            sidebarText.style.display = 'none';
+            let img = sidebarAvatar.querySelector('img');
+            if (!img) {
+                img = document.createElement('img');
+                sidebarAvatar.appendChild(img);
             }
-            const namesPreset = ['Breakfast', 'Lunch', 'Dinner', 'Snack 1', 'Snack 2', 'Snack 3'];
-            while (userData.meals.length < (userData.mealsPerDay || 3)) {
-                const index = userData.meals.length;
-                userData.meals.push({
-                    name: namesPreset[index] || `Meal ${index + 1}`,
-                    foods: []
-                });
+            img.src = src;
+
+            // Profile avatar
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileText = document.getElementById('profileAvatarText');
+            profileText.style.display = 'none';
+            let profImg = profileAvatar.querySelector('img');
+            if (!profImg) {
+                profImg = document.createElement('img');
+                profImg.style.position = 'absolute';
+                profImg.style.top = '0';
+                profImg.style.left = '0';
+                profileAvatar.appendChild(profImg);
             }
-            if (userData.meals.length > userData.mealsPerDay) {
-                userData.meals = userData.meals.slice(0, userData.mealsPerDay);
-            }
+            profImg.src = src;
         }
 
-        function applyMealsPerDay() {
-            const input = document.getElementById('mealsPerDayInput');
-            const value = parseInt(input.value) || 3;
-            userData.mealsPerDay = Math.min(Math.max(value, 1), 10);
-            ensureMealsInitialized();
-            saveUserData();
-            renderMealsUI();
-            updateDashboardStats();
-        }
+        // =====================================================
+        // HEALTH METER UPDATE - Perditeso meterin e shendetit
+        // =====================================================
+        function updateHealthMeter(bmi) {
+            const progress = document.getElementById('healthProgress');
+            const healthBMI = document.getElementById('healthBMI');
+            const statusText = document.getElementById('healthStatusText');
+            const statusDesc = document.getElementById('healthStatusDesc');
 
-        function renderMealsUI() {
-            const container = document.getElementById('mealsContainer');
-            if (!container) return;
+            healthBMI.textContent = bmi;
 
-            document.getElementById('mealsPerDayInput').value = userData.mealsPerDay || 3;
-            ensureMealsInitialized();
+            // Calculate progress (BMI 15-40 range)
+            let percentage = ((bmi - 15) / 25) * 100;
+            percentage = Math.min(Math.max(percentage, 0), 100);
 
-            container.innerHTML = userData.meals.map((meal, index) => {
-                const mealCalories = (meal.foods || []).reduce((sum, f) => sum + (f.calories || 0), 0);
-                return `
-                    <div class="meal-item">
-                        <div class="meal-header">
-                            <div class="meal-name">${meal.name || 'Meal ' + (index + 1)}</div>
-                            <div class="meal-calories"><span id="mealCalories-${index}">${mealCalories.toFixed(0)}</span> cal</div>
-                        </div>
-                        <div class="meal-add-row">
-                            <div>
-                                <input type="text" class="form-input" id="foodSearch-${index}" placeholder="Search food..." oninput="updateFoodSuggestions(${index})">
-                                <div class="food-results" id="foodResults-${index}"></div>
-                            </div>
-                            <input type="number" class="form-input" id="foodQuantity-${index}" placeholder="Qty (g)" min="1" value="100">
-                            <button class="btn btn-secondary" type="button" onclick="addFoodToMeal(${index})">Add</button>
-                        </div>
-                        <div class="meal-foods-list" id="mealFoods-${index}">
-                            ${renderMealFoodsHTML(index)}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+            const circumference = 2 * Math.PI * 65;
+            const offset = circumference - (percentage / 100) * circumference;
+            progress.style.strokeDashoffset = offset;
 
-        function updateFoodSuggestions(mealIndex) {
-            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
-            const resultsContainer = document.getElementById(`foodResults-${mealIndex}`);
-            if (!searchInput || !resultsContainer) return;
-
-            const term = searchInput.value.toLowerCase().trim();
-            if (!term) {
-                resultsContainer.innerHTML = '';
-                return;
-            }
-
-            const matches = FOOD_DB.filter(f => f.name.toLowerCase().includes(term)).slice(0, 20);
-
-            if (matches.length === 0) {
-                resultsContainer.innerHTML = '<div class="food-result-item"><span>No foods found</span></div>';
-                return;
-            }
-
-            resultsContainer.innerHTML = matches.map(food => `
-                <div class="food-result-item" onclick="selectFoodForMeal(${mealIndex}, '${food.name.replace(/'/g, "\\'")}', ${food.caloriesPer100g})">
-                    <strong>${food.name}</strong>
-                    <span>${food.caloriesPer100g} cal / 100g</span>
-                </div>
-            `).join('');
-        }
-
-        function selectFoodForMeal(mealIndex, foodName, caloriesPer100g) {
-            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
-            const resultsContainer = document.getElementById(`foodResults-${mealIndex}`);
-            if (!searchInput) return;
-
-            searchInput.value = foodName;
-            searchInput.dataset.selectedFood = foodName;
-            if (resultsContainer) resultsContainer.innerHTML = '';
-        }
-
-        function addFoodToMeal(mealIndex) {
-            ensureMealsInitialized();
-            const searchInput = document.getElementById(`foodSearch-${mealIndex}`);
-            const qtyInput = document.getElementById(`foodQuantity-${mealIndex}`);
-            if (!searchInput || !qtyInput) return;
-
-            const foodName = searchInput.dataset.selectedFood || searchInput.value;
-            const quantity = parseFloat(qtyInput.value) || 0;
-            if (!foodName || quantity <= 0) return;
-
-            const base = FOOD_DB.find(f => f.name === foodName);
-            const caloriesPer100g = base ? base.caloriesPer100g : 0;
-            const calories = caloriesPer100g * (quantity / 100);
-
-            userData.meals[mealIndex].foods.push({
-                name: foodName,
-                quantity,
-                unit: 'g',
-                calories
-            });
-
-            saveUserData();
-            renderMealsUI();
-            updateDashboardStats();
-        }
-
-        function removeFoodFromMeal(mealIndex, foodIndex) {
-            if (!userData.meals || !userData.meals[mealIndex]) return;
-            userData.meals[mealIndex].foods.splice(foodIndex, 1);
-            saveUserData();
-            renderMealsUI();
-            updateDashboardStats();
-        }
-
-        function renderMealFoodsHTML(mealIndex) {
-            const meal = (userData.meals || [])[mealIndex];
-            if (!meal || !Array.isArray(meal.foods) || meal.foods.length === 0) {
-                return '<p style="font-size: 13px; color: var(--text-muted);">No foods added yet for this meal.</p>';
-            }
-
-            return meal.foods.map((food, idx) => `
-                <div class="meal-food-row">
-                    <div><strong>${food.name}</strong></div>
-                    <div>${food.quantity} ${food.unit}</div>
-                    <div>${food.calories.toFixed(0)} cal</div>
-                    <div><button type="button" class="btn btn-secondary" onclick="removeFoodFromMeal(${mealIndex}, ${idx})">Remove</button></div>
-                </div>
-            `).join('');
-        }
-
-        // Update calorie goal
-        document.getElementById('calorieGoalInput').addEventListener('change', function() {
-            userData.calorieGoal = parseInt(this.value) || 2000;
-            saveUserData();
-            updateUI();
-        });
-
-        // Update workout statistics
-        function updateWorkoutStats() {
-            const now = new Date();
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            
-            const weekWorkouts = userData.workouts.filter(w => {
-                const workoutDate = new Date(w.date);
-                return workoutDate >= weekAgo;
-            }).length;
-            
-            const totalDuration = userData.workouts.reduce((sum, w) => sum + (w.duration || 0), 0);
-            const totalCalories = userData.workouts.reduce((sum, w) => sum + (w.calories || 0), 0);
-            
-            document.getElementById('weekWorkouts').textContent = weekWorkouts;
-            document.getElementById('totalDuration').textContent = (totalDuration / 60).toFixed(1) + 'h';
-            document.getElementById('totalCaloriesBurned').textContent = totalCalories.toLocaleString();
-            
-            // Update active minutes from workouts
-            userData.activeMinutes = userData.workouts
-                .filter(w => {
-                    const workoutDate = new Date(w.date);
-                    const today = new Date();
-                    return workoutDate.toDateString() === today.toDateString();
-                })
-                .reduce((sum, w) => sum + (w.duration || 0), 0);
-            
-            renderWorkoutList();
-        }
-
-        // Render workout list
-        function renderWorkoutList() {
-            const container = document.getElementById('workoutList');
-            
-            if (userData.workouts.length === 0) {
-                container.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-muted); padding: 40px 20px;">No workouts yet. Click "Add Workout" to get started!</p></div>';
-                return;
-            }
-            
-            container.innerHTML = userData.workouts.map((workout, index) => {
-                const date = new Date(workout.date);
-                const timeAgo = getTimeAgo(date);
-                
-                return `
-                    <div class="workout-item">
-                        <div class="workout-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M6.5 6.5h11"/>
-                                <path d="M6.5 17.5h11"/>
-                                <path d="M12 6.5v11"/>
-                            </svg>
-                        </div>
-                        <div class="workout-info">
-                            <div class="workout-name">${workout.name}</div>
-                            <div class="workout-meta">${timeAgo}</div>
-                        </div>
-                        <div class="workout-stats">
-                            <div>
-                                <div class="workout-stat-value">${workout.duration} min</div>
-                                <div class="workout-stat-label">Duration</div>
-                            </div>
-                            <div>
-                                <div class="workout-stat-value">${workout.calories} cal</div>
-                                <div class="workout-stat-label">Burned</div>
-                            </div>
-                        </div>
-                        <div class="workout-actions">
-                            <button class="workout-action-btn" onclick="editWorkout(${index})">Edit</button>
-                            <button class="workout-action-btn delete" onclick="deleteWorkout(${index})">Delete</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Get time ago string
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffDays = Math.floor(diffMs / 86400000);
-            
-            if (diffMins < 60) return diffMins + ' minutes ago';
-            if (diffHours < 24) return diffHours + ' hours ago';
-            if (diffDays === 0) return 'Today';
-            if (diffDays === 1) return 'Yesterday';
-            if (diffDays < 7) return diffDays + ' days ago';
-            return date.toLocaleDateString();
-        }
-
-        // Open workout modal
-        function openWorkoutModal() {
-            document.getElementById('workoutModalTitle').textContent = 'Add Workout';
-            document.getElementById('workoutSubmitBtn').textContent = 'Add Workout';
-            document.getElementById('editWorkoutIndex').value = '-1';
-            document.getElementById('workoutForm').reset();
-            document.getElementById('workoutModal').classList.add('show');
-        }
-
-        // Close workout modal
-        function closeWorkoutModal() {
-            document.getElementById('workoutModal').classList.remove('show');
-        }
-
-        // Save workout
-        function saveWorkout(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('workoutName').value;
-            const duration = parseInt(document.getElementById('workoutDuration').value);
-            const calories = parseInt(document.getElementById('workoutCalories').value);
-            const editIndex = parseInt(document.getElementById('editWorkoutIndex').value);
-            
-            const workout = {
-                name,
-                duration,
-                calories,
-                date: new Date().toISOString()
-            };
-            
-            if (editIndex >= 0) {
-                userData.workouts[editIndex] = workout;
+            // Determine status
+            let status, desc, color;
+            if (bmi < 18.5) {
+                status = 'Nen peshe';
+                desc = 'Konsidero te rrisesh masen trupore';
+                color = '#3b82f6';
+            } else if (bmi < 25) {
+                status = 'Peshe normale';
+                desc = 'Vazhdo keshtu! Je ne forme te shkelqyer';
+                color = '#10b981';
+            } else if (bmi < 30) {
+                status = 'Mbipeshe';
+                desc = 'Konsidero me shume aktivitet fizik';
+                color = '#f59e0b';
             } else {
-                userData.workouts.unshift(workout);
+                status = 'Obezitet';
+                desc = 'Keshillohesh te konsultohesh me mjekun';
+                color = '#ef4444';
             }
+
+            statusText.textContent = status;
+            statusText.style.color = color;
+            statusDesc.textContent = desc;
+            progress.style.stroke = color;
+        }
+
+        // =====================================================
+        // DATE UPDATE - Perditeso daten
+        // =====================================================
+        function updateDate() {
+            const now = new Date();
+            const albanianDays = ['E Diel', 'E Hene', 'E Marte', 'E Merkure', 'E Enjte', 'E Premte', 'E Shtune'];
+            const albanianMonths = ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nentor', 'Dhjetor'];
             
-            saveUserData();
-            updateUI();
-            closeWorkoutModal();
+            document.getElementById('dashboardDate').textContent = 
+                `${albanianDays[now.getDay()]}, ${now.getDate()} ${albanianMonths[now.getMonth()]} ${now.getFullYear()}`;
         }
 
-        // Edit workout
-        function editWorkout(index) {
-            const workout = userData.workouts[index];
-            document.getElementById('workoutModalTitle').textContent = 'Edit Workout';
-            document.getElementById('workoutSubmitBtn').textContent = 'Save Changes';
-            document.getElementById('editWorkoutIndex').value = index;
-            document.getElementById('workoutName').value = workout.name;
-            document.getElementById('workoutDuration').value = workout.duration;
-            document.getElementById('workoutCalories').value = workout.calories;
-            document.getElementById('workoutModal').classList.add('show');
+        // =====================================================
+        // SECTION SWITCHING - Ndryshimi i seksioneve
+        // =====================================================
+        function switchSection(section) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.dashboard-section').forEach(s => s.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(section + 'Section').classList.add('active');
+
+            // Close mobile sidebar
+            document.getElementById('sidebar').classList.remove('open');
         }
 
-        // Delete workout
-        function deleteWorkout(index) {
-            if (confirm('Are you sure you want to delete this workout?')) {
-                userData.workouts.splice(index, 1);
-                saveUserData();
-                updateUI();
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // =====================================================
+        // FOOD DATABASE - Te gjitha ushqimet shqip
+        // =====================================================
+        const foodDatabase = [
+            // Frutat
+            { id: 1, name: 'Molle', calories: 52, category: 'fruits', icon: '🍎', portion: '100g' },
+            { id: 2, name: 'Banane', calories: 89, category: 'fruits', icon: '🍌', portion: '100g' },
+            { id: 3, name: 'Portokall', calories: 47, category: 'fruits', icon: '🍊', portion: '100g' },
+            { id: 4, name: 'Rrush', calories: 69, category: 'fruits', icon: '🍇', portion: '100g' },
+            { id: 5, name: 'Lulebore', calories: 30, category: 'fruits', icon: '🍓', portion: '100g' },
+            { id: 6, name: 'Kumbull', calories: 46, category: 'fruits', icon: '🫐', portion: '100g' },
+            { id: 7, name: 'Pjeshke', calories: 39, category: 'fruits', icon: '🍑', portion: '100g' },
+            { id: 8, name: 'Shalqi', calories: 30, category: 'fruits', icon: '🍉', portion: '100g' },
+            { id: 9, name: 'Qershi', calories: 50, category: 'fruits', icon: '🍒', portion: '100g' },
+            { id: 10, name: 'Dardhe', calories: 57, category: 'fruits', icon: '🍐', portion: '100g' },
+            
+            // Perimet
+            { id: 11, name: 'Domate', calories: 18, category: 'vegetables', icon: '🍅', portion: '100g' },
+            { id: 12, name: 'Kastravec', calories: 15, category: 'vegetables', icon: '🥒', portion: '100g' },
+            { id: 13, name: 'Karrote', calories: 41, category: 'vegetables', icon: '🥕', portion: '100g' },
+            { id: 14, name: 'Brokoli', calories: 34, category: 'vegetables', icon: '🥦', portion: '100g' },
+            { id: 15, name: 'Spinaq', calories: 23, category: 'vegetables', icon: '🥬', portion: '100g' },
+            { id: 16, name: 'Laker', calories: 25, category: 'vegetables', icon: '🥬', portion: '100g' },
+            { id: 17, name: 'Qepe', calories: 40, category: 'vegetables', icon: '🧅', portion: '100g' },
+            { id: 18, name: 'Hudher', calories: 149, category: 'vegetables', icon: '🧄', portion: '100g' },
+            { id: 19, name: 'Spec', calories: 31, category: 'vegetables', icon: '🫑', portion: '100g' },
+            { id: 20, name: 'Patellxhan', calories: 25, category: 'vegetables', icon: '🍆', portion: '100g' },
+            { id: 21, name: 'Patate', calories: 77, category: 'vegetables', icon: '🥔', portion: '100g' },
+            { id: 22, name: 'Kungull', calories: 26, category: 'vegetables', icon: '🎃', portion: '100g' },
+            
+            // Proteina
+            { id: 23, name: 'Mish Pule', calories: 165, category: 'proteins', icon: '🍗', portion: '100g' },
+            { id: 24, name: 'Mish Vici', calories: 250, category: 'proteins', icon: '🥩', portion: '100g' },
+            { id: 25, name: 'Peshk', calories: 206, category: 'proteins', icon: '🐟', portion: '100g' },
+            { id: 26, name: 'Veze', calories: 155, category: 'proteins', icon: '🥚', portion: '100g' },
+            { id: 27, name: 'Mish Derri', calories: 242, category: 'proteins', icon: '🥓', portion: '100g' },
+            { id: 28, name: 'Mish Qengji', calories: 294, category: 'proteins', icon: '🍖', portion: '100g' },
+            { id: 29, name: 'Karkalec', calories: 99, category: 'proteins', icon: '🦐', portion: '100g' },
+            { id: 30, name: 'Tuna', calories: 132, category: 'proteins', icon: '🐟', portion: '100g' },
+            
+            // Bulmet
+            { id: 31, name: 'Qumesht', calories: 42, category: 'dairy', icon: '🥛', portion: '100ml' },
+            { id: 32, name: 'Djathe', calories: 402, category: 'dairy', icon: '🧀', portion: '100g' },
+            { id: 33, name: 'Kos', calories: 59, category: 'dairy', icon: '🥛', portion: '100g' },
+            { id: 34, name: 'Gjize', calories: 98, category: 'dairy', icon: '🧀', portion: '100g' },
+            { id: 35, name: 'Ajke', calories: 717, category: 'dairy', icon: '🧈', portion: '100g' },
+            
+            // Drithera
+            { id: 36, name: 'Buke', calories: 265, category: 'grains', icon: '🍞', portion: '100g' },
+            { id: 37, name: 'Oriz', calories: 130, category: 'grains', icon: '🍚', portion: '100g' },
+            { id: 38, name: 'Makarona', calories: 131, category: 'grains', icon: '🍝', portion: '100g' },
+            { id: 39, name: 'Tershere', calories: 389, category: 'grains', icon: '🥣', portion: '100g' },
+            { id: 40, name: 'Byrek', calories: 290, category: 'grains', icon: '🥧', portion: '100g' },
+            
+            // Pijet
+            { id: 41, name: 'Uje', calories: 0, category: 'drinks', icon: '💧', portion: '250ml' },
+            { id: 42, name: 'Caj', calories: 1, category: 'drinks', icon: '🍵', portion: '250ml' },
+            { id: 43, name: 'Kafe', calories: 2, category: 'drinks', icon: '☕', portion: '250ml' },
+            { id: 44, name: 'Leng Portokalli', calories: 45, category: 'drinks', icon: '🧃', portion: '250ml' },
+            { id: 45, name: 'Leng Molle', calories: 46, category: 'drinks', icon: '🧃', portion: '250ml' },
+            
+            // Embelsira
+            { id: 46, name: 'Bakllave', calories: 334, category: 'desserts', icon: '🥮', portion: '100g' },
+            { id: 47, name: 'Akullore', calories: 207, category: 'desserts', icon: '🍦', portion: '100g' },
+            { id: 48, name: 'Torte', calories: 257, category: 'desserts', icon: '🍰', portion: '100g' },
+            { id: 49, name: 'Cokollate', calories: 546, category: 'desserts', icon: '🍫', portion: '100g' },
+            { id: 50, name: 'Trileqe', calories: 300, category: 'desserts', icon: '🍮', portion: '100g' }
+        ];
+
+        let currentFilter = 'all';
+
+        // =====================================================
+        // LOAD FOODS - Ngarko ushqimet
+        // =====================================================
+        function loadFoods() {
+            const foodList = document.getElementById('foodList');
+            let filteredFoods = foodDatabase;
+
+            if (currentFilter !== 'all') {
+                filteredFoods = foodDatabase.filter(f => f.category === currentFilter);
+            }
+
+            foodList.innerHTML = filteredFoods.map(food => `
+                <div class="food-item">
+                    <div class="food-item-info">
+                        <div class="food-item-icon">${food.icon}</div>
+                        <div>
+                            <div class="food-item-name">${food.name}</div>
+                            <div class="food-item-details">${food.portion}</div>
+                        </div>
+                    </div>
+                    <div class="food-item-actions">
+                        <div class="food-item-calories">${food.calories} kcal</div>
+                        <button class="food-item-btn" onclick="addFoodToDaily(${food.id})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =====================================================
+        // FILTER FOOD - Filtro ushqimet
+        // =====================================================
+        function filterFood(category) {
+            currentFilter = category;
+            document.querySelectorAll('.food-category').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            loadFoods();
+        }
+
+        // =====================================================
+        // ADD FOOD TO DAILY - Shto ushqim ne listen ditore
+        // =====================================================
+        function addFoodToDaily(foodId) {
+            const food = foodDatabase.find(f => f.id === foodId);
+            if (!food) return;
+
+            let dailyFoods = JSON.parse(localStorage.getItem('bittracker_daily_foods') || '[]');
+            dailyFoods.push({
+                ...food,
+                addedAt: new Date().toISOString()
+            });
+            localStorage.setItem('bittracker_daily_foods', JSON.stringify(dailyFoods));
+
+            loadDailyFoods();
+            showToast('Ushqimi u shtua me sukses!');
+        }
+
+        // =====================================================
+        // LOAD DAILY FOODS - Ngarko ushqimet ditore
+        // =====================================================
+        function loadDailyFoods() {
+            const addedFoodList = document.getElementById('addedFoodList');
+            const dailyFoods = JSON.parse(localStorage.getItem('bittracker_daily_foods') || '[]');
+
+            if (dailyFoods.length === 0) {
+                addedFoodList.innerHTML = `
+                    <p style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        Nuk ke shtuar asnje ushqim sot. Kliko butonin + per te shtuar.
+                    </p>
+                `;
+                updateCaloriesProgress(0);
+                return;
+            }
+
+            const totalCalories = dailyFoods.reduce((sum, f) => sum + f.calories, 0);
+            updateCaloriesProgress(totalCalories);
+
+            addedFoodList.innerHTML = dailyFoods.map((food, index) => `
+                <div class="food-item">
+                    <div class="food-item-info">
+                        <div class="food-item-icon">${food.icon}</div>
+                        <div>
+                            <div class="food-item-name">${food.name}</div>
+                            <div class="food-item-details">${food.portion}</div>
+                        </div>
+                    </div>
+                    <div class="food-item-actions">
+                        <div class="food-item-calories">${food.calories} kcal</div>
+                        <button class="food-item-btn delete" onclick="removeDailyFood(${index})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =====================================================
+        // UPDATE CALORIES PROGRESS - Perditeso progresin e kalorive
+        // =====================================================
+        function updateCaloriesProgress(total) {
+            const goal = 2000;
+            const percentage = Math.min((total / goal) * 100, 100);
+
+            document.getElementById('totalCalories').textContent = total + ' kcal';
+            document.getElementById('caloriesProgressFill').style.width = percentage + '%';
+            document.getElementById('caloriesConsumed').textContent = total + ' kcal konsumuar';
+        }
+
+        // =====================================================
+        // REMOVE DAILY FOOD - Hiq ushqimin ditor
+        // =====================================================
+        function removeDailyFood(index) {
+            let dailyFoods = JSON.parse(localStorage.getItem('bittracker_daily_foods') || '[]');
+            dailyFoods.splice(index, 1);
+            localStorage.setItem('bittracker_daily_foods', JSON.stringify(dailyFoods));
+            loadDailyFoods();
+            showToast('Ushqimi u hoq!');
+        }
+
+        // =====================================================
+        // ADD FOOD MODAL - Modal per shtim ushqimi
+        // =====================================================
+        function openAddFoodModal() {
+            document.getElementById('addFoodModal').classList.add('active');
+        }
+
+        function closeAddFoodModal() {
+            document.getElementById('addFoodModal').classList.remove('active');
+            document.getElementById('foodName').value = '';
+            document.getElementById('foodCalories').value = '';
+        }
+
+        function addCustomFood(e) {
+            e.preventDefault();
+            const name = document.getElementById('foodName').value;
+            const calories = parseInt(document.getElementById('foodCalories').value);
+            const category = document.getElementById('foodCategory').value;
+
+            const icons = {
+                fruits: '🍎', vegetables: '🥬', proteins: '🥩',
+                dairy: '🧀', grains: '🍞', drinks: '🥤', desserts: '🍰'
+            };
+
+            const newFood = {
+                id: Date.now(),
+                name: name,
+                calories: calories,
+                category: category,
+                icon: icons[category],
+                portion: '100g'
+            };
+
+            foodDatabase.push(newFood);
+            loadFoods();
+            closeAddFoodModal();
+            showToast('Ushqimi i ri u shtua!');
+        }
+
+        // =====================================================
+        // PROFILE UPDATE - Perditeso profilin
+        // =====================================================
+        function updateProfile(e) {
+            e.preventDefault();
+
+            const height = parseInt(document.getElementById('profileHeightInput').value);
+            const weight = parseInt(document.getElementById('profileWeightInput').value);
+            const age = parseInt(document.getElementById('profileAgeInput').value);
+
+            // Validation
+            if (height < 120 || height > 230) {
+                showToast('Gjatesia duhet te jete mes 120 dhe 230 cm');
+                return;
+            }
+            if (weight < 30 || weight > 250) {
+                showToast('Pesha duhet te jete mes 30 dhe 250 kg');
+                return;
+            }
+            if (age < 10 || age > 100) {
+                showToast('Mosha duhet te jete mes 10 dhe 100 vjec');
+                return;
+            }
+
+            // Update localStorage
+            const userData = JSON.parse(localStorage.getItem('bittracker_user'));
+            userData.height = height;
+            userData.weight = weight;
+            userData.age = age;
+            localStorage.setItem('bittracker_user', JSON.stringify(userData));
+
+            // Reload dashboard
+            loadDashboardData();
+            showToast('Profili u perditesua me sukses!');
+        }
+
+        // =====================================================
+        // AVATAR MODAL - Modal per foton e profilit
+        // =====================================================
+        let tempAvatarData = null;
+
+        function openAvatarModal() {
+            document.getElementById('avatarModal').classList.add('active');
+            const userData = JSON.parse(localStorage.getItem('bittracker_user'));
+            const initials = userData.email.charAt(0).toUpperCase();
+            
+            if (userData.avatar) {
+                document.getElementById('avatarPreviewImg').src = userData.avatar;
+                document.getElementById('avatarPreviewImg').style.display = 'block';
+                document.getElementById('avatarPreviewText').style.display = 'none';
+            } else {
+                document.getElementById('avatarPreviewText').textContent = initials;
+                document.getElementById('avatarPreviewText').style.display = 'block';
+                document.getElementById('avatarPreviewImg').style.display = 'none';
             }
         }
 
-        // Update progress statistics
-        function updateProgressStats() {
-            const weightChange = userData.initialWeight - userData.weight;
-            const workoutCount = userData.workouts.length;
-            
-            // Calculate streak (simplified - just using workout count for now)
-            const streak = Math.min(workoutCount, 30);
-            
-            document.getElementById('currentWeight').textContent = userData.weight + ' kg';
-            document.getElementById('weightChangeBadge').textContent = (weightChange >= 0 ? '-' : '+') + Math.abs(weightChange).toFixed(1) + 'kg';
-            
-            // Calculate goal weight based on goal type
-            let goalWeight = userData.weight;
-            if (userData.goal === 'lose') goalWeight = userData.weight - 5;
-            if (userData.goal === 'muscle') goalWeight = userData.weight + 3;
-            
-            document.getElementById('goalWeight').textContent = goalWeight + ' kg';
-            document.getElementById('progressStreak').textContent = streak;
-            document.getElementById('progressTotalWorkouts').textContent = workoutCount;
-            
-            // Update profile stats
-            document.getElementById('totalWorkouts').textContent = workoutCount;
-            document.getElementById('dayStreak').textContent = streak;
-            document.getElementById('weightLost').textContent = (weightChange >= 0 ? '-' : '+') + Math.abs(weightChange).toFixed(1) + 'kg';
+        function closeAvatarModal() {
+            document.getElementById('avatarModal').classList.remove('active');
+            tempAvatarData = null;
         }
 
-        // Load profile data into form
-        function loadProfileData() {
-            document.getElementById('profileNameInput').value = userData.name || '';
-            document.getElementById('profileEmailInput').value = userData.email || '';
-            document.getElementById('profileAgeInput').value = userData.age || '';
-            document.getElementById('profileWeightInput').value = userData.weight || '';
-            document.getElementById('profileHeightInput').value = userData.height || '';
-            document.getElementById('profileActivityInput').value = userData.activityLevel || 'moderate';
-        }
-
-        // Handle profile form submission
-        document.getElementById('profileForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            userData.name = document.getElementById('profileNameInput').value;
-            userData.email = document.getElementById('profileEmailInput').value;
-            userData.age = parseInt(document.getElementById('profileAgeInput').value);
-            userData.weight = parseInt(document.getElementById('profileWeightInput').value);
-            userData.height = parseInt(document.getElementById('profileHeightInput').value);
-            userData.activityLevel = document.getElementById('profileActivityInput').value;
-            
-            if (!userData.initialWeight) {
-                userData.initialWeight = userData.weight;
+        function previewAvatar(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    tempAvatarData = event.target.result;
+                    document.getElementById('avatarPreviewImg').src = tempAvatarData;
+                    document.getElementById('avatarPreviewImg').style.display = 'block';
+                    document.getElementById('avatarPreviewText').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
             }
-            
-            saveUserData();
-            updateUI();
-            alert('Profile updated successfully!');
-        });
-
-        // Navigation
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const menuToggle = document.getElementById('menuToggle');
-        const themeToggle = document.getElementById('themeToggle');
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const sections = document.querySelectorAll('.section');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('show');
-        });
-
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-
-        themeToggle.addEventListener('click', () => {
-            themeToggle.classList.toggle('active');
-            document.body.setAttribute('data-theme', 
-                themeToggle.classList.contains('active') ? 'dark' : 'light'
-            );
-            localStorage.setItem('theme', themeToggle.classList.contains('active') ? 'dark' : 'light');
-        });
-
-        // Load saved theme
-        if (localStorage.getItem('theme') === 'dark') {
-            themeToggle.classList.add('active');
-            document.body.setAttribute('data-theme', 'dark');
         }
 
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const sectionId = btn.dataset.section;
-
-                navBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                    if (section.id === sectionId) {
-                        section.classList.add('active');
-                    }
-                });
-
-                sidebar.classList.remove('open');
-                overlay.classList.remove('show');
-            });
-        });
-
-        // Set current date
-        const dateElement = document.getElementById('currentDate');
-        const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        dateElement.textContent = now.toLocaleDateString('en-US', options);
-
-        // Initialize activity chart
-        function initActivityChart() {
-            const container = document.getElementById('activityChart');
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const values = [65, 80, 45, 90, 70, 85, 60];
-
-            container.innerHTML = '';
-            days.forEach((day, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'chart-bar-wrapper';
-
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = `${values[index]}%`;
-
-                const label = document.createElement('span');
-                label.className = 'chart-label';
-                label.textContent = day;
-
-                wrapper.appendChild(bar);
-                wrapper.appendChild(label);
-                container.appendChild(wrapper);
-            });
-
-            const style = document.createElement('style');
-            style.textContent = days.map((_, i) => 
-                `.chart-bar-wrapper:nth-child(${i + 1}) .chart-bar::after { height: ${values[i]}%; }`
-            ).join('');
-            document.head.appendChild(style);
-        }
-
-        // Initialize weight chart
-        function initWeightChart() {
-            const container = document.getElementById('weightChart');
-            const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
-            const startWeight = userData.initialWeight || userData.weight;
-            const currentWeight = userData.weight;
-            const weightDiff = startWeight - currentWeight;
-            const monthlyChange = weightDiff / 6;
-            
-            const weights = [];
-            for (let i = 0; i < 6; i++) {
-                weights.push(startWeight - (monthlyChange * i));
+        function saveAvatar() {
+            if (tempAvatarData) {
+                const userData = JSON.parse(localStorage.getItem('bittracker_user'));
+                userData.avatar = tempAvatarData;
+                localStorage.setItem('bittracker_user', JSON.stringify(userData));
+                loadDashboardData();
+                showToast('Fotoja u ruajt!');
             }
-            
-            const maxWeight = Math.max(...weights);
-            const minWeight = Math.min(...weights) - 2;
-            const range = maxWeight - minWeight;
-
-            container.innerHTML = '';
-            months.forEach((month, index) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'chart-bar-wrapper';
-
-                const heightPercent = ((weights[index] - minWeight) / range) * 100;
-
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = `${heightPercent}%`;
-
-                const label = document.createElement('span');
-                label.className = 'chart-label';
-                label.textContent = month;
-
-                wrapper.appendChild(bar);
-                wrapper.appendChild(label);
-                container.appendChild(wrapper);
-            });
-
-            const style = document.createElement('style');
-            style.textContent = months.map((_, i) => {
-                const heightPercent = ((weights[i] - minWeight) / range) * 100;
-                return `#weightChart .chart-bar-wrapper:nth-child(${i + 1}) .chart-bar::after { height: ${heightPercent}%; }`;
-            }).join('');
-            document.head.appendChild(style);
+            closeAvatarModal();
         }
 
-        // Initialize charts
-        initActivityChart();
-        initWeightChart();
+        // =====================================================
+        // LOGOUT - Dil nga llogaria
+        // =====================================================
+        function handleLogout() {
+            localStorage.removeItem('bittracker_user');
+            localStorage.removeItem('bittracker_daily_foods');
+            window.location.href = 'index.php';
+        }
 
-        // Chart tab switching
-        document.querySelectorAll('.chart-tab').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                const tabs = e.target.parentElement.querySelectorAll('.chart-tab');
-                tabs.forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-            });
-        });
+        // =====================================================
+        // TOAST NOTIFICATION - Njoftim
+        // =====================================================
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
 
-        // Close modals when clicking outside
-        document.getElementById('calorieModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'calorieModal') closeCalorieModal();
-        });
-        document.getElementById('workoutModal')?.addEventListener('click', (e) => {
-            if (e.target.id === 'workoutModal') closeWorkoutModal();
-        });
+            const toast = document.createElement('div');
+            toast.className = 'toast success';
+            toast.textContent = message;
+            document.body.appendChild(toast);
 
-        // Initialize UI
-        updateUI();
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
     </script>
+    <!-- =====================================================
+         JAVASCRIPT - Fundi
+         ===================================================== -->
 </body>
 </html>
+<!-- =====================================================
+     DASHBOARD.PHP - FUNDI I FILE-IT
+     ===================================================== -->
